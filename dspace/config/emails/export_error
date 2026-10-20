@@ -6,11 +6,11 @@
 ##
 ## See org.dspace.core.Email for information on the format of this file.
 ##
-#set($subject = "${config.get('dspace.name')}: The item export you requested was not completed.")
-The item export you requested was not completed, due to the following reason:
+#set($subject = "${config.get('dspace.name')}: La exportación de ítems que solicitó no se completó.")
+La exportación de ítems que solicitó no se completó, debido al siguiente motivo:
  ${params[0]}
 
-For more information you may contact your system administrator:
+Para obtener más información, puede ponerse en contacto con su administrador del sistema:
  ${params[1]}
 
-The ${config.get('dspace.name')} Team
+Repositorio Institucional de El Colegio Mexiquense, A.C.

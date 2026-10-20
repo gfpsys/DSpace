@@ -11,22 +11,22 @@
 ##             8 corresponding author email
 ##             9 configuration property "dspace.name"
 ##             10 configuration property "mail.helpdesk"
-#set($subject = "${config.get('dspace.name')}: Request copy of document")
+#set($subject = "${config.get('dspace.name')}: Solicitud de copia de documento")
 
-Dear ${params[7]},
+Estimado(a) ${params[7]}:
 
-A user of ${params[9]}, named ${params[0]} and using the email ${params[1]}, requested a copy of the file(s) associated with the document: "${params[4]}" (${params[3]}) submitted by you.
+Un usuario de ${params[9]}, de nombre ${params[0]} y con correo electrónico ${params[1]}, solicitó una copia del archivo o los archivos asociados al documento: "${params[4]}" (${params[3]}) que usted depositó.
 
-This request came along with the following message:
+La solicitud incluye el siguiente mensaje:
 
 "${params[5]}"
 
-To answer, click ${params[6]}. Whether you choose to grant or deny the request, we think that it's in your best interest to respond.
+Para responder, haga clic en ${params[6]}. Ya sea que decida aceptar o rechazar la solicitud, le recomendamos responder.
 
-IF YOU ARE NOT AN AUTHOR OF THIS DOCUMENT, and only submitted the document on the author's behalf, PLEASE REDIRECT THIS MESSAGE TO THE AUTHOR(S).  Only the author(s) should answer the request to send a copy.
+SI USTED NO ES AUTOR DE ESTE DOCUMENTO y solo lo depositó en nombre del autor, POR FAVOR REENVÍE ESTE MENSAJE AL AUTOR O LOS AUTORES. Solo el autor o los autores deben responder a la solicitud de envío de una copia.
 
-IF YOU ARE AN AUTHOR OF THE REQUESTED DOCUMENT, thank you for your cooperation!
+SI USTED ES AUTOR DEL DOCUMENTO SOLICITADO, ¡gracias por su colaboración!
 
-If you have any questions concerning this request, please contact ${params[10]}.
+Si tiene alguna pregunta sobre esta solicitud, por favor escriba a ${params[10]}.
 
-The ${config.get('dspace.name')} Team
+Repositorio Institucional de El Colegio Mexiquense, A.C.

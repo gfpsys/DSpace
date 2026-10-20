@@ -7,17 +7,17 @@
 ## {4}  Task result
 ## {5}  Workflow action taken
 ##
-#set($subject = "${config.get('dspace.name')}: Curation Task Report")
+#set($subject = "${config.get('dspace.name')}: Reporte de tarea de curación")
 
-Title:         ${params[0]}
-Collection:    ${params[1]}
-Submitted by:  ${params[2]}
+Título:        ${params[0]}
+Colección:     ${params[1]}
+Enviado por:   ${params[2]}
 
-Curation task ${params[3]} has been performed
-with the following result:
+Se ejecutó la tarea de curación ${params[3]}
+con el siguiente resultado:
 
 ${params[4]}
 
-Action taken on the submission: ${params[5]}
+Acción realizada sobre el envío: ${params[5]}
 
-The ${config.get('dspace.name')} Team
+Repositorio Institucional de El Colegio Mexiquense, A.C.
