@@ -12,9 +12,10 @@
 ##
 #set($subject = "${config.get('dspace.name')}: Error ${params[0]} DOI ${params[3]}")
 
-Date:    ${params[1]}
+Fecha:   ${params[1]}
 
-${params[0]} DOI ${params[4]} for ${params[2]} with ID ${params[3]} failed:
+Falló la operación "${params[0]}" del DOI ${params[4]} para ${params[2]} con ID ${params[3]}:
 ${params[5]}
 
-The ${config.get('dspace.name')} Team
+
+Repositorio Institucional de El Colegio Mexiquense, A.C.

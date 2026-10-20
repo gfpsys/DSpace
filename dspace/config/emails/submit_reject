@@ -6,17 +6,17 @@
 ## {3}  Reason for the rejection
 ## {4}  Link to 'My DSpace' page
 ##
-#set($subject = "${config.get('dspace.name')}: Submission Rejected")
+#set($subject = "${config.get('dspace.name')}: Envío rechazado")
 
-You submitted: ${params[0]}
+Usted envió: ${params[0]}
 
-To collection: ${params[1]}
+A la colección: ${params[1]}
 
-Your submission has been rejected by ${params[2]}
-with the following explanation:
+Su envío fue rechazado por ${params[2]}
+con la siguiente explicación:
 
 ${params[3]}
 
-Your submission has not been deleted. You can access it from your "My${config.get('dspace.shortname')}" page: ${params[4]}
+Su envío no ha sido eliminado. Puede acceder a él desde su página "Mi ${config.get('dspace.shortname')}": ${params[4]}
 
-The ${config.get('dspace.name')} Team
+Repositorio Institucional de El Colegio Mexiquense, A.C.

@@ -8,12 +8,13 @@
 ##
 ## See org.dspace.core.Email for information on the format of this file.
 ##
-#set($subject = "${config.get('dspace.name')}: Registration Notification")
+#set($subject = "${config.get('dspace.name')}: Notificación de registro")
 
-A new user has registered on ${params[0]} at ${params[1]}:
+Un nuevo usuario se ha registrado en ${params[0]} (${params[1]}):
 
-Name:                   ${params[2]}
-Email:                  ${params[3]}
-Date:                   ${params[4]}
+Nombre:                 ${params[2]}
+Correo electrónico:     ${params[3]}
+Fecha:                  ${params[4]}
 
-The ${config.get('dspace.name')} Team
+
+Repositorio Institucional de El Colegio Mexiquense, A.C.

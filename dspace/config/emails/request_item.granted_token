@@ -11,12 +11,12 @@
 ##  {6} URL of the requested Item including the secure access token
 ##  {7} expiration date of the granted access (timestamp, formatted in requestitem.cfg)
 
-#set($subject = 'Request for Copy of Restricted Document is Granted')
-Dear ${params[0]}:
+#set($subject = 'Se aprobó su solicitud de copia de un documento restringido')
+Estimado(a) ${params[0]}:
 
-Your request for a copy of the file(s) from the below document has been approved.  The following link will grant access to the files you requested.
+Su solicitud de copia del archivo o los archivos del siguiente documento fue aprobada. El siguiente enlace le dará acceso a los archivos que solicitó.
 
-Secure link: ${params[6]}
+Enlace seguro: ${params[6]}
 
     ${params[2]}
     ${params[1]}
@@ -24,16 +24,16 @@ Secure link: ${params[6]}
 #if( $params[7] )
 
 
-Your access will last until ${params[7]}.
+Su acceso estará vigente hasta el ${params[7]}.
 #end
 #if( $params[5] )
 
 
 
-An additional message from the approver follows:
+A continuación, un mensaje adicional de quien aprobó la solicitud:
 
 ${params[5]}
 #end
 
-Best regards,
-The ${config.get('dspace.name')} Team
+Saludos cordiales,
+Repositorio Institucional de El Colegio Mexiquense, A.C.

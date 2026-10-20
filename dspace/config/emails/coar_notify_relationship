@@ -10,20 +10,21 @@
 ##             {7} Item
 ##
 ##
-#set($subject = "DSpace: The Service ${params[0]} has related a Resource ""${params[6].object.subject}""")
+#set($subject = "DSpace: El servicio ${params[0]} ha relacionado un recurso ""${params[6].object.subject}""")
 
-A relationship announce notification has been received relating to the Item: ${params[1]}
+Se ha recibido una notificación de relación para el ítem: ${params[1]}
 
-Here is a more detailed report:
-Item: ${params[1]}
-Item URL: ${params[3]}
-Submitted by: ${params[4]}
-Linked Resource URL: ${params[6].object.subject}
+Detalles del reporte:
+Ítem: ${params[1]}
+URL del ítem: ${params[3]}
+Enviado por: ${params[4]}
+URL del recurso vinculado: ${params[6].object.subject}
 
-Has a new status: RELATED
+Tiene el nuevo estado: RELATED
 
-By Service: ${params[0]}
-Service URL: ${params[2]}
-Date: ${params[5]}
+Por el servicio: ${params[0]}
+URL del servicio: ${params[2]}
+Fecha: ${params[5]}
 
-The ${config.get('dspace.name')} Team
+
+Repositorio Institucional de El Colegio Mexiquense, A.C.

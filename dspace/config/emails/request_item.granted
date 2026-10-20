@@ -8,19 +8,19 @@
 ##  {3} name of the grantor
 ##  {4} email address of the grantor (unused)
 ##  {5} custom message sent by the grantor.
-#set($subject = 'Request for Copy of Restricted Document is Granted')
-Dear ${params[0]}:
+#set($subject = 'Se aprobó su solicitud de copia de un documento restringido')
+Estimado(a) ${params[0]}:
 
-Your request for a copy of the file(s) from the below document has been approved by ${params[3]}.  You may find the requested file(s) attached.
+Su solicitud de copia del archivo o los archivos del siguiente documento fue aprobada por ${params[3]}. Encontrará los archivos solicitados adjuntos a este correo.
 
     ${params[2]}
     ${params[1]} 
 #if( $params[5] )
 
-An additional message from ${params[3]} follows:
+A continuación, un mensaje adicional de ${params[3]}:
 
 ${params[5]}
 #end
 
-Best regards,
-The ${config.get('dspace.name')} Team
+Saludos cordiales,
+Repositorio Institucional de El Colegio Mexiquense, A.C.

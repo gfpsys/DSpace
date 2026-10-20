@@ -10,18 +10,18 @@
 ##
 ## See org.dspace.core.Email for information on the format of this file.
 ##
-#set($subject = "${config.get('dspace.name')}: Feedback Form Information")
+#set($subject = "${config.get('dspace.name')}: Información del formulario de comentarios")
 
-Comments:
+Comentarios:
 
 ${params[6]}
 
 
-Date: ${params[0]}
-Email: ${params[1]}
-Logged In As: ${params[2]}
-Referring Page: ${params[3]}
-User Agent: ${params[4]}
-Session: ${params[5]}
+Fecha: ${params[0]}
+Correo electrónico: ${params[1]}
+Sesión iniciada como: ${params[2]}
+Página de origen: ${params[3]}
+Agente de usuario: ${params[4]}
+Sesión: ${params[5]}
 
-The ${config.get('dspace.name')} Team
+Repositorio Institucional de El Colegio Mexiquense, A.C.

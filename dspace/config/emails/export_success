@@ -5,12 +5,12 @@
 ##
 ## See org.dspace.core.Email for information on the format of this file.
 ##
-#set($subject = "${config.get('dspace.name')}: Item export requested is ready for download")
-The item export you requested from the repository is now ready for download.
+#set($subject = "${config.get('dspace.name')}: La exportación de ítems solicitada está lista para descargar")
+La exportación de ítems que solicitó al repositorio ya está lista para descargar.
 
-You may download the compressed file using the following link:
+Puede descargar el archivo comprimido en el siguiente enlace:
 ${params[0]}
 
-This file will remain available for at least ${params[1]} hours.
+Este archivo estará disponible durante al menos ${params[1]} horas.
 
-The ${config.get('dspace.name')} Team
+Repositorio Institucional de El Colegio Mexiquense, A.C.
