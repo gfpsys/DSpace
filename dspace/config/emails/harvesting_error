@@ -8,15 +8,15 @@
 ##
 ## See org.dspace.core.Email for information on the format of this file.
 ##
-#set($subject = "${config.get('dspace.name')}: Harvesting Error")
-Collection ${params[0]} failed on harvest:
+#set($subject = "${config.get('dspace.name')}: Error de cosecha")
+Falló la cosecha de la colección ${params[0]}:
 
-Date:       	${params[1]}
-Status Flag: 	${params[2]}
+Fecha:      	${params[1]}
+Estado:     	${params[2]}
 
 ${params[3]}
 
-Exception:
+Excepción:
 ${params[4]}
 
-The ${config.get('dspace.name')} Team
+Repositorio Institucional de El Colegio Mexiquense, A.C.
