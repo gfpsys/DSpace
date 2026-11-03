@@ -164,7 +164,6 @@
             <step id="publicationStep"/>
             <step id="publicationSecondStep"/>
             <step id="upload"/>
-            <step id="cclicense"/>
         </submission-process>
         <submission-process name="Person">
             <step id="collection"/>
