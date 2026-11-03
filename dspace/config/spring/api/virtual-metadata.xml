@@ -39,7 +39,11 @@
          'dc.contributor.author' on the appropriate item with the values defined in the value-ref.
           This value-ref should be a bean of type VirtualMetadataConfiguration -->
     <util:map id="isAuthorOfPublicationMap">
+		<!--
+		CM usa dc.creator
         <entry key="dc.contributor.author" value-ref="publicationAuthor_author"/>
+		-->
+		<entry key="dc.creator" value-ref="publicationAuthor_author"/>
         <entry key="person.identifier.orcid" value-ref="publicationAuthor_identifierOrcid"/>
     </util:map>
     <!--
