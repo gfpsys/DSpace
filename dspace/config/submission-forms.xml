@@ -248,7 +248,7 @@
                 <field>
                     <dc-schema>dc</dc-schema>
                     <dc-element>title</dc-element>
-                    <language value-pairs-name="metadatacommon_es_iso_languages">true</language>
+                    <language value-pairs-name="metadatacommon_es_en_iso_languages">true</language>
                     <repeatable>false</repeatable>
                     <label>Título</label>
                     <input-type>onebox</input-type>
@@ -262,11 +262,11 @@
                     <dc-schema>dc</dc-schema>
                     <dc-element>title</dc-element>
                     <dc-qualifier>alternative</dc-qualifier>
-                    <language value-pairs-name="metadatacommon_en_iso_languages">true</language>
+                    <language value-pairs-name="metadatacommon_es_en_iso_languages">true</language>
                     <repeatable>false</repeatable>
                     <label>Título alternativo en inglés</label>
                     <input-type>onebox</input-type>
-                    <hint>Ejemplo: Mining activity in the State of Mexico during the nineteenth century</hint>
+                    <hint>Escriba el título en inglés</hint>
                     <required></required>
                 </field>
             </row>
@@ -275,22 +275,11 @@
                     <dc-schema>dc</dc-schema>
                     <dc-element>description</dc-element>
                     <dc-qualifier>abstract</dc-qualifier>
-                    <language value-pairs-name="metadatacommon_es_iso_languages">true</language>
+                    <language value-pairs-name="metadatacommon_es_en_iso_languages">true</language>
                     <repeatable>true</repeatable>
-                    <label>Resumen en español</label>
+                    <label>Resumen</label>
                     <input-type>textarea</input-type>
-                    <hint></hint>
-                    <required></required>
-                </field>
-                <field>
-                    <dc-schema>dc</dc-schema>
-                    <dc-element>description</dc-element>
-                    <dc-qualifier>abstract</dc-qualifier>
-                    <language value-pairs-name="metadatacommon_en_iso_languages">true</language>
-                    <repeatable>true</repeatable>
-                    <label>Resumen en inglés</label>
-                    <input-type>textarea</input-type>
-                    <hint></hint>
+                    <hint>Use «+ Añadir más» para agregar el resumen en inglés y seleccione el idioma correspondiente.</hint>
                     <required></required>
                 </field>
             </row>
@@ -299,22 +288,11 @@
                     <dc-schema>dc</dc-schema>
                     <dc-element>description</dc-element>
                     <dc-qualifier>notes</dc-qualifier>
-                    <language value-pairs-name="metadatacommon_es_iso_languages">true</language>
+                    <language value-pairs-name="metadatacommon_es_en_iso_languages">true</language>
                     <repeatable>true</repeatable>
-                    <label>Notas en español</label>
+                    <label>Notas</label>
                     <input-type>textarea</input-type>
-                    <hint></hint>
-                    <required></required>
-                </field>
-                <field>
-                    <dc-schema>dc</dc-schema>
-                    <dc-element>description</dc-element>
-                    <dc-qualifier>notes</dc-qualifier>
-                    <language value-pairs-name="metadatacommon_en_iso_languages">true</language>
-                    <repeatable>true</repeatable>
-                    <label>Notas en inglés</label>
-                    <input-type>textarea</input-type>
-                    <hint></hint>
+                    <hint>Use «+ Añadir más» para agregar las notas en inglés y seleccione el idioma correspondiente.</hint>
                     <required></required>
                 </field>
             </row>
@@ -322,29 +300,19 @@
                 <field>
                     <dc-schema>dc</dc-schema>
                     <dc-element>subject</dc-element>
-                    <language value-pairs-name="metadatacommon_es_iso_languages">true</language>
+                    <language value-pairs-name="metadatacommon_es_en_iso_languages">true</language>
                     <repeatable>true</repeatable>
-                    <label>Palabras clave en español</label>
+                    <label>Palabras clave</label>
                     <input-type>onebox</input-type>
-                    <hint></hint>
+                    <hint>Use «+ Añadir más» para agregar más palabras clave en español o inglés y seleccione el idioma correspondiente.</hint>
                     <required></required>
                 </field>
-                <field>
-                    <dc-schema>dc</dc-schema>
-                    <dc-element>subject</dc-element>
-                    <language value-pairs-name="metadatacommon_en_iso_languages">true</language>
-                    <repeatable>true</repeatable>
-                    <label>Palabras clave en inglés</label>
-                    <input-type>onebox</input-type>
-                    <hint></hint>
-                    <required></required>
-                </field>
-            </row>
+			</row>
             <row>
                 <field>
                     <dc-schema>dc</dc-schema>
                     <dc-element>type</dc-element>
-                    <language value-pairs-name="metadatacommon_es_iso_languages">true</language>
+                    <language value-pairs-name="metadatacommon_es_en_iso_languages">true</language>
                     <repeatable>false</repeatable>
                     <label>Tipo de documento</label>
                     <input-type value-pairs-name="common_types">list</input-type>
@@ -355,7 +323,7 @@
                     <dc-schema>dc</dc-schema>
                     <dc-element>type</dc-element>
                     <dc-qualifier>publicationversion</dc-qualifier>
-                    <language value-pairs-name="metadatacommon_es_iso_languages">true</language>
+                    <language value-pairs-name="metadatacommon_es_en_iso_languages">true</language>
                     <repeatable>false</repeatable>
                     <label>Versión de la publicación</label>
                     <input-type value-pairs-name="openaire_version_types">list</input-type>
@@ -368,7 +336,7 @@
                     <dc-schema>dc</dc-schema>
                     <dc-element>rights</dc-element>
                     <dc-qualifier>accesslevel</dc-qualifier>
-                    <language value-pairs-name="metadatacommon_es_iso_languages">true</language>
+                    <language value-pairs-name="metadatacommon_es_en_iso_languages">true</language>
                     <repeatable>false</repeatable>
                     <label>Nivel de acceso</label>
                     <input-type value-pairs-name="openaire_rights">list</input-type>
@@ -378,7 +346,7 @@
                 <field>
                     <dc-schema>dc</dc-schema>
                     <dc-element>publisher</dc-element>
-                    <language value-pairs-name="metadatacommon_es_iso_languages">true</language>
+                    <language value-pairs-name="metadatacommon_es_en_iso_languages">true</language>
                     <repeatable>false</repeatable>
                     <label>Editorial / Entidad editora</label>
                     <input-type>onebox</input-type>
@@ -403,7 +371,7 @@
                     <dc-schema>dc</dc-schema>
                     <dc-element>coverage</dc-element>
                     <dc-qualifier>countryfocus</dc-qualifier>
-                    <language value-pairs-name="metadatacommon_es_iso_languages">true</language>
+                    <language value-pairs-name="metadatacommon_es_en_iso_languages">true</language>
                     <repeatable>true</repeatable>
                     <label>País de estudio</label>
                     <input-type>onebox</input-type>
@@ -414,7 +382,7 @@
                     <dc-schema>dc</dc-schema>
                     <dc-element>coverage</dc-element>
                     <dc-qualifier>other</dc-qualifier>
-                    <language value-pairs-name="metadatacommon_es_iso_languages">true</language>
+                    <language value-pairs-name="metadatacommon_es_en_iso_languages">true</language>
                     <repeatable>true</repeatable>
                     <label>Otra cobertura geográfica</label>
                     <input-type>onebox</input-type>
@@ -426,7 +394,7 @@
                 <field>
                     <dc-schema>dc</dc-schema>
                     <dc-element>audience</dc-element>
-                    <language value-pairs-name="metadatacommon_es_iso_languages">true</language>
+                    <language value-pairs-name="metadatacommon_es_en_iso_languages">true</language>
                     <repeatable>true</repeatable>
                     <label>Público destinatario</label>
                     <input-type value-pairs-name="openaire_audience">list</input-type>
@@ -450,7 +418,7 @@
                 <field>
                     <dc-schema>dc</dc-schema>
                     <dc-element>bibliographicCitation</dc-element>
-                    <language value-pairs-name="metadatacommon_es_iso_languages">true</language>
+                    <language value-pairs-name="metadatacommon_es_en_iso_languages">true</language>
                     <repeatable>false</repeatable>
                     <label>Cita bibliográfica</label>
                     <input-type>textarea</input-type>
@@ -576,7 +544,7 @@
                     <dc-schema>person</dc-schema>
                     <dc-element>affiliation</dc-element>
                     <dc-qualifier>name</dc-qualifier>
-                    <language value-pairs-name="common_iso_languages">true</language>
+                    <language value-pairs-name="metadatacommon_es_en_iso_languages">true</language>
                     <repeatable>true</repeatable>
                     <label>Afiliación</label>
                     <input-type>onebox</input-type>
@@ -590,7 +558,7 @@
                     <dc-schema>person</dc-schema>
                     <dc-element>identifier</dc-element>
                     <dc-qualifier>orcid</dc-qualifier>
-                    <language value-pairs-name="common_iso_languages">true</language>
+                    <language value-pairs-name="metadatacommon_es_en_iso_languages">true</language>
                     <repeatable>false</repeatable>
                     <label>ID de ORCID</label>
                     <input-type>onebox</input-type>
@@ -1468,7 +1436,7 @@
                     <dc-schema>dc</dc-schema>
                     <dc-element>source</dc-element>
                     <dc-qualifier>journal</dc-qualifier>
-                    <language value-pairs-name="metadatacommon_es_iso_languages">true</language>
+                    <language value-pairs-name="metadatacommon_es_en_iso_languages">true</language>
                     <repeatable>false</repeatable>
                     <label>Título de la revista</label>
                     <input-type>onebox</input-type>
@@ -1536,6 +1504,27 @@
                     <required></required>
                 </field>
             </row>
+			<row>
+				<field>
+					<dc-schema>dcterms</dc-schema>
+					<dc-element>license</dc-element>
+					<repeatable>false</repeatable>
+					<label>Licencia</label>
+					<input-type value-pairs-name="openaire_license_types">dropdown</input-type>
+					<hint>Seleccione el nombre de la licencia.</hint>
+					<required></required>
+				</field>
+				<field>
+					<dc-schema>dcterms</dc-schema>
+					<dc-element>license</dc-element>
+					<dc-qualifier>uri</dc-qualifier>
+					<repeatable>false</repeatable>
+					<label>URI de la licencia</label>
+					<input-type value-pairs-name="openaire_license_uris">dropdown</input-type>
+					<hint>Seleccione el URI que corresponde a la licencia elegida.</hint>
+					<required></required>
+				</field>
+			</row>
         </form>
 
     </form-definitions>
@@ -1592,24 +1581,13 @@
             </pair>
         </value-pairs>
 
-        <value-pairs value-pairs-name="metadatacommon_es_iso_languages" dc-term="metadatacommon_iso_languages">
+         <value-pairs value-pairs-name="metadatacommon_es_en_iso_languages" dc-term="metadatacommon_es_en_iso_languages">
             <pair>	
                 <displayed-value>Español</displayed-value>
                 <stored-value>es</stored-value>
             </pair>
-			<pair>	
-                <displayed-value>Español (es)</displayed-value>
-                <stored-value>es</stored-value>
-            </pair>
-        </value-pairs>
-
-        <value-pairs value-pairs-name="metadatacommon_en_iso_languages" dc-term="metadatacommon_en_iso_languages">
-            <pair>
-                <displayed-value>Inglés</displayed-value>
-                <stored-value>en</stored-value>
-            </pair>
 			<pair>
-                <displayed-value>Inglés (en)</displayed-value>
+                <displayed-value>Inglés</displayed-value>
                 <stored-value>en</stored-value>
             </pair>
         </value-pairs>
@@ -1741,38 +1719,65 @@
 
         <value-pairs value-pairs-name="openaire_license_types" dc-term="license">
             <pair>
-                <displayed-value>Without License</displayed-value>
-                <stored-value></stored-value>
-            </pair>
-            <pair>
-                <displayed-value>Attribution (CC-BY)</displayed-value>
-                <stored-value>https://creativecommons.org/licenses/by/4.0/</stored-value>
-            </pair>
-            <pair>
-                <displayed-value>Attribution, No Derivative Works (CC-BY-ND)</displayed-value>
-                <stored-value>https://creativecommons.org/licenses/by-nd/4.0/</stored-value>
-            </pair>
-            <pair>
-                <displayed-value>Attribution, Share-alike (CC-BY-SA)</displayed-value>
-                <stored-value>https://creativecommons.org/licenses/by-sa/4.0/</stored-value>
-            </pair>
-            <pair>
-                <displayed-value>Attribution, Non-commercial (CC-BY-NC)</displayed-value>
-                <stored-value>https://creativecommons.org/licenses/by-nc/4.0/</stored-value>
-            </pair>
-            <pair>
-                <displayed-value>Attribution, Non-commercial, No Derivative Works (CC-BY-NC-ND)</displayed-value>
-                <stored-value>https://creativecommons.org/licenses/by-nc-nd/4.0/</stored-value>
-            </pair>
-            <pair>
-                <displayed-value>Attribution, Non-commercial, Share-alike (CC-BY-NC-SA)</displayed-value>
-                <stored-value>https://creativecommons.org/licenses/by-nc-sa/4.0/</stored-value>
-            </pair>
-            <pair>
-                <displayed-value>Other</displayed-value>
-                <stored-value>other</stored-value>
-            </pair>
+				<displayed-value>Atribución 4.0 Internacional (CC BY 4.0)</displayed-value>
+				<stored-value>CC BY 4.0</stored-value>
+			</pair>
+			<pair>
+				<displayed-value>Atribución-CompartirIgual 4.0 Internacional (CC BY-SA 4.0)</displayed-value>
+				<stored-value>CC BY-SA 4.0</stored-value>
+			</pair>
+			<pair>
+				<displayed-value>Atribución-SinDerivadas 4.0 Internacional (CC BY-ND 4.0)</displayed-value>
+				<stored-value>CC BY-ND 4.0</stored-value>
+			</pair>
+			<pair>
+				<displayed-value>Atribución-NoComercial 4.0 Internacional (CC BY-NC 4.0)</displayed-value>
+				<stored-value>CC BY-NC 4.0</stored-value>
+			</pair>
+			<pair>
+				<displayed-value>Atribución-NoComercial-CompartirIgual 4.0 Internacional (CC BY-NC-SA 4.0)</displayed-value>
+				<stored-value>CC BY-NC-SA 4.0</stored-value>
+			</pair>
+			<pair>
+				<displayed-value>Atribución-NoComercial-SinDerivadas 4.0 Internacional (CC BY-NC-ND 4.0)</displayed-value>
+				<stored-value>CC BY-NC-ND 4.0</stored-value>
+			</pair>
+			<pair>
+				<displayed-value>Dominio público (CC0 1.0)</displayed-value>
+				<stored-value>Dominio público (CC0 1.0)</stored-value>
+			</pair>
         </value-pairs>
+		
+		<value-pairs value-pairs-name="openaire_license_uris" dc-term="license_uri">
+			<pair>
+				<displayed-value>CC BY 4.0 – https://creativecommons.org/licenses/by/4.0/</displayed-value>
+				<stored-value>https://creativecommons.org/licenses/by/4.0/</stored-value>
+			</pair>
+			<pair>
+				<displayed-value>CC BY-SA 4.0 – https://creativecommons.org/licenses/by-sa/4.0/</displayed-value>
+				<stored-value>https://creativecommons.org/licenses/by-sa/4.0/</stored-value>
+			</pair>
+			<pair>
+				<displayed-value>CC BY-ND 4.0 – https://creativecommons.org/licenses/by-nd/4.0/</displayed-value>
+				<stored-value>https://creativecommons.org/licenses/by-nd/4.0/</stored-value>
+			</pair>
+			<pair>
+				<displayed-value>CC BY-NC 4.0 – https://creativecommons.org/licenses/by-nc/4.0/</displayed-value>
+				<stored-value>https://creativecommons.org/licenses/by-nc/4.0/</stored-value>
+			</pair>
+			<pair>
+				<displayed-value>CC BY-NC-SA 4.0 – https://creativecommons.org/licenses/by-nc-sa/4.0/</displayed-value>
+				<stored-value>https://creativecommons.org/licenses/by-nc-sa/4.0/</stored-value>
+			</pair>
+			<pair>
+				<displayed-value>CC BY-NC-ND 4.0 – https://creativecommons.org/licenses/by-nc-nd/4.0/</displayed-value>
+				<stored-value>https://creativecommons.org/licenses/by-nc-nd/4.0/</stored-value>
+			</pair>
+			<pair>
+				<displayed-value>CC0 1.0 – https://creativecommons.org/publicdomain/zero/1.0/</displayed-value>
+				<stored-value>https://creativecommons.org/publicdomain/zero/1.0/</stored-value>
+			</pair>
+		</value-pairs>
 
         <value-pairs value-pairs-name="openaire_types" dc-term="type">
             <pair>
@@ -2280,13 +2285,13 @@
                 <displayed-value>Consejeros</displayed-value>
                 <stored-value>Consejeros</stored-value>
             </pair>
-            <pair>
-                <displayed-value>Grupos comunitarios</displayed-value>
-                <stored-value>Grupos comunitarios</stored-value>
-            </pair>
 			<pair>
                 <displayed-value>Docentes</displayed-value>
                 <stored-value>Docentes</stored-value>
+            </pair>
+            <pair>
+                <displayed-value>Grupos comunitarios</displayed-value>
+                <stored-value>Grupos comunitarios</stored-value>
             </pair>
 			<pair>
                 <displayed-value>Estudiantes</displayed-value>
