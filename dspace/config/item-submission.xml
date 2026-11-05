@@ -14,6 +14,18 @@
         <name-map collection-entity-type="Journal" submission-name="Journal"/>
         <name-map collection-entity-type="JournalVolume" submission-name="JournalVolume"/>
         <name-map collection-entity-type="JournalIssue" submission-name="JournalIssue"/>
+		
+		<!-- Colecciones de la comunidad Investigación 123456789/2 -->
+		<!-- Colección Producción Científica -->
+		<name-map collection-handle="123456789/7" submission-name="ComunidadInvestigacionPublication"/>
+		<!-- Colección Documentos de Trabajo y Reportes Técnicos -->
+		<name-map collection-handle="123456789/8" submission-name="ComunidadInvestigacionPublication"/>
+		<!-- Colección Datos Abiertos de Investigación -->
+		<name-map collection-handle="123456789/9" submission-name="ComunidadInvestigacionPublication"/>
+		<!-- Colección Información Geoespacial y Cartografía -->
+		<name-map collection-handle="123456789/10" submission-name="ComunidadInvestigacionPublication"/>
+		
+	
     </submission-map>
 
     <!-- Global step definitions -->
@@ -144,7 +156,17 @@
             <processing-class>org.dspace.app.rest.submit.step.DuplicateDetectionStep</processing-class>
             <type>duplicates</type>
         </step-definition>
-        <step-definition id="publicationSecondStep" mandatory="true">
+        <step-definition id="publicationJournalStep" mandatory="true">
+            <heading>submit.progressbar.describe.stepone</heading>
+            <processing-class>org.dspace.app.rest.submit.step.DescribeStep</processing-class>
+            <type>submission-form</type>
+        </step-definition>
+		<step-definition id="CustomCCLicenseStep" mandatory="true">
+            <heading>submit.progressbar.CClicense</heading>
+            <processing-class>org.dspace.app.rest.submit.step.DescribeStep</processing-class>
+            <type>submission-form</type>
+        </step-definition>
+		<step-definition id="publicationComunidadInvestigacionStep" mandatory="true">
             <heading>submit.progressbar.describe.stepone</heading>
             <processing-class>org.dspace.app.rest.submit.step.DescribeStep</processing-class>
             <type>submission-form</type>
@@ -162,7 +184,17 @@
         <submission-process name="Publication">
             <step id="collection"/>
             <step id="publicationStep"/>
-            <step id="publicationSecondStep"/>
+            <step id="publicationJournalStep"/>
+			<step id="CustomCCLicenseStep"/>
+            <step id="upload"/>
+        </submission-process>
+		<!-- Colecciones de la comunidad Investigación 123456789/2 -->
+		<submission-process name="ComunidadInvestigacionPublication">
+            <step id="collection"/>
+            <step id="publicationStep"/>
+            <step id="publicationJournalStep"/>
+			<step id="publicationComunidadInvestigacionStep"/>
+			<step id="CustomCCLicenseStep"/>
             <step id="upload"/>
         </submission-process>
         <submission-process name="Person">
