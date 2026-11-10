@@ -193,10 +193,17 @@
             <list>
                 <ref bean="searchFilterAuthor" />
                 <ref bean="searchFilterSubject" />
+				<ref bean="searchFilterType" />
+				<ref bean="searchFilterSourceJournal" />
                 <ref bean="searchFilterIssued" />
-                <ref bean="searchFilterContentInOriginalBundle"/>
+				<ref bean="searchFilterCoverageCountryFocus" />
+				<ref bean="searchFilterLanguage" />
+				<ref bean="searchFilterResearchLine" />
+				<ref bean="searchFilterProgram" />
+				<ref bean="searchFilterAccessLevel" />
                 <!-- <ref bean="searchFilterHasGeospatialMetadata"/> -->
                 <ref bean="searchFilterEntityType"/>
+				<ref bean="searchFilterContentInOriginalBundle"/>
                 <ref bean="searchFilterAccessStatus" />
             </list>
         </property>
@@ -208,12 +215,19 @@
                 <ref bean="searchFilterTitle" />
                 <ref bean="searchFilterAuthor" />
                 <ref bean="searchFilterSubject" />
+				<ref bean="searchFilterType" />
+				<ref bean="searchFilterSourceJournal" />
                 <ref bean="searchFilterIssued" />
+				<ref bean="searchFilterCoverageCountryFocus" />
+				<ref bean="searchFilterLanguage" />
+				<ref bean="searchFilterResearchLine" />
+				<ref bean="searchFilterProgram" />
+				<ref bean="searchFilterAccessLevel" />
+				<ref bean="searchFilterEntityType"/>
                 <ref bean="searchFilterContentInOriginalBundle"/>
                 <ref bean="searchFilterFileNameInOriginalBundle" />
                 <ref bean="searchFilterFileDescriptionInOriginalBundle" />
                 <ref bean="searchFilterHasGeospatialMetadata" />
-                <ref bean="searchFilterEntityType"/>
                 <ref bean="searchFilterAccessStatus" />
                 <ref bean="searchFilterIsAuthorOfPublicationRelation"/>
                 <ref bean="searchFilterIsProjectOfPublicationRelation"/>
@@ -380,9 +394,16 @@
             <list>
                 <ref bean="searchFilterAuthor" />
                 <ref bean="searchFilterSubject" />
+				<ref bean="searchFilterType" />
+				<ref bean="searchFilterSourceJournal" />
                 <ref bean="searchFilterIssued" />
+				<ref bean="searchFilterCoverageCountryFocus" />
+				<ref bean="searchFilterLanguage" />
+				<ref bean="searchFilterResearchLine" />
+				<ref bean="searchFilterProgram" />
+				<ref bean="searchFilterAccessLevel" />
+				<ref bean="searchFilterEntityType"/>
                 <ref bean="searchFilterContentInOriginalBundle"/>
-                <ref bean="searchFilterEntityType"/>
             </list>
         </property>
         <!-- Set TagCloud configuration per discovery configuration -->
@@ -393,11 +414,18 @@
                 <ref bean="searchFilterTitle" />
                 <ref bean="searchFilterAuthor" />
                 <ref bean="searchFilterSubject" />
+				<ref bean="searchFilterType" />
+				<ref bean="searchFilterSourceJournal" />
                 <ref bean="searchFilterIssued" />
+				<ref bean="searchFilterCoverageCountryFocus" />
+				<ref bean="searchFilterLanguage" />
+				<ref bean="searchFilterResearchLine" />
+				<ref bean="searchFilterProgram" />
+				<ref bean="searchFilterAccessLevel" />
+				<ref bean="searchFilterEntityType"/>
                 <ref bean="searchFilterContentInOriginalBundle"/>
                 <ref bean="searchFilterFileNameInOriginalBundle" />
                 <ref bean="searchFilterFileDescriptionInOriginalBundle" />
-                <ref bean="searchFilterEntityType"/>
                 <ref bean="searchFilterIsAuthorOfPublicationRelation"/>
                 <ref bean="searchFilterIsProjectOfPublicationRelation"/>
                 <ref bean="searchFilterIsOrgUnitOfPublicationRelation"/>
@@ -519,9 +547,16 @@
             <list>
                 <ref bean="searchFilterAuthor" />
                 <ref bean="searchFilterSubject" />
+				<ref bean="searchFilterType" />
+				<ref bean="searchFilterSourceJournal" />
                 <ref bean="searchFilterIssued" />
+				<ref bean="searchFilterCoverageCountryFocus" />
+				<ref bean="searchFilterLanguage" />
+				<ref bean="searchFilterResearchLine" />
+				<ref bean="searchFilterProgram" />
+				<ref bean="searchFilterAccessLevel" />
+				<ref bean="searchFilterEntityType"/>
                 <ref bean="searchFilterContentInOriginalBundle"/>
-                <ref bean="searchFilterEntityType"/>
             </list>
         </property>
         <!-- Set TagCloud configuration per discovery configuration -->
@@ -532,11 +567,18 @@
                 <ref bean="searchFilterTitle" />
                 <ref bean="searchFilterAuthor" />
                 <ref bean="searchFilterSubject" />
+				<ref bean="searchFilterType" />
+				<ref bean="searchFilterSourceJournal" />
                 <ref bean="searchFilterIssued" />
+				<ref bean="searchFilterCoverageCountryFocus" />
+				<ref bean="searchFilterLanguage" />
+				<ref bean="searchFilterResearchLine" />
+				<ref bean="searchFilterProgram" />
+				<ref bean="searchFilterAccessLevel" />
+				<ref bean="searchFilterEntityType"/>
                 <ref bean="searchFilterContentInOriginalBundle"/>
                 <ref bean="searchFilterFileNameInOriginalBundle" />
                 <ref bean="searchFilterFileDescriptionInOriginalBundle" />
-                <ref bean="searchFilterEntityType"/>
                 <ref bean="searchFilterIsAuthorOfPublicationRelation"/>
                 <ref bean="searchFilterIsProjectOfPublicationRelation"/>
                 <ref bean="searchFilterIsOrgUnitOfPublicationRelation"/>
@@ -660,9 +702,16 @@
                 <ref bean="searchFilterWithdrawn" />
                 <ref bean="searchFilterAuthor" />
                 <ref bean="searchFilterSubject" />
+				<ref bean="searchFilterType" />
+				<ref bean="searchFilterSourceJournal" />
                 <ref bean="searchFilterIssued" />
+				<ref bean="searchFilterCoverageCountryFocus" />
+				<ref bean="searchFilterLanguage" />
+				<ref bean="searchFilterResearchLine" />
+				<ref bean="searchFilterProgram" />
+				<ref bean="searchFilterAccessLevel" />
+				<ref bean="searchFilterEntityType"/>
                 <ref bean="searchFilterContentInOriginalBundle"/>
-                <ref bean="searchFilterEntityType"/>
                 <ref bean="searchFilterNotifyRelation" />
                 <ref bean="searchFilterNotifyEndorsement" />
                 <ref bean="searchFilterNotifyReview" />
@@ -678,11 +727,18 @@
                 <ref bean="searchFilterTitle" />
                 <ref bean="searchFilterAuthor" />
                 <ref bean="searchFilterSubject" />
+				<ref bean="searchFilterType" />
+				<ref bean="searchFilterSourceJournal" />
                 <ref bean="searchFilterIssued" />
+				<ref bean="searchFilterCoverageCountryFocus" />
+				<ref bean="searchFilterLanguage" />
+				<ref bean="searchFilterResearchLine" />
+				<ref bean="searchFilterProgram" />
+				<ref bean="searchFilterAccessLevel" />
+				<ref bean="searchFilterEntityType"/>
                 <ref bean="searchFilterContentInOriginalBundle"/>
                 <ref bean="searchFilterFileNameInOriginalBundle" />
                 <ref bean="searchFilterFileDescriptionInOriginalBundle" />
-                <ref bean="searchFilterEntityType"/>
                 <ref bean="searchFilterIsAuthorOfPublicationRelation"/>
                 <ref bean="searchFilterIsProjectOfPublicationRelation"/>
                 <ref bean="searchFilterIsOrgUnitOfPublicationRelation"/>
@@ -1182,9 +1238,16 @@
             <list>
                 <ref bean="searchFilterAuthor" />
                 <ref bean="searchFilterSubject" />
+				<ref bean="searchFilterType" />
+				<ref bean="searchFilterSourceJournal" />
                 <ref bean="searchFilterIssued" />
+				<ref bean="searchFilterCoverageCountryFocus" />
+				<ref bean="searchFilterLanguage" />
+				<ref bean="searchFilterResearchLine" />
+				<ref bean="searchFilterProgram" />
+				<ref bean="searchFilterAccessLevel" />
+				<ref bean="searchFilterEntityType"/>
                 <ref bean="searchFilterContentInOriginalBundle"/>
-                <ref bean="searchFilterEntityType"/>
             </list>
         </property>
         <!-- Set TagCloud configuration per discovery configuration -->
@@ -1195,11 +1258,18 @@
                 <ref bean="searchFilterTitle" />
                 <ref bean="searchFilterAuthor" />
                 <ref bean="searchFilterSubject" />
+				<ref bean="searchFilterType" />
+				<ref bean="searchFilterSourceJournal" />
                 <ref bean="searchFilterIssued" />
+				<ref bean="searchFilterCoverageCountryFocus" />
+				<ref bean="searchFilterLanguage" />
+				<ref bean="searchFilterResearchLine" />
+				<ref bean="searchFilterProgram" />
+				<ref bean="searchFilterAccessLevel" />
+				<ref bean="searchFilterEntityType"/>
                 <ref bean="searchFilterContentInOriginalBundle"/>
                 <ref bean="searchFilterFileNameInOriginalBundle" />
                 <ref bean="searchFilterFileDescriptionInOriginalBundle" />
-                <ref bean="searchFilterEntityType"/>
                 <ref bean="searchFilterIsAuthorOfPublicationRelation"/>
                 <ref bean="searchFilterIsProjectOfPublicationRelation"/>
                 <ref bean="searchFilterIsOrgUnitOfPublicationRelation"/>
@@ -1252,9 +1322,16 @@
             <list>
                 <ref bean="searchFilterAuthor" />
                 <ref bean="searchFilterSubject" />
+				<ref bean="searchFilterType" />
+				<ref bean="searchFilterSourceJournal" />
                 <ref bean="searchFilterIssued" />
+				<ref bean="searchFilterCoverageCountryFocus" />
+				<ref bean="searchFilterLanguage" />
+				<ref bean="searchFilterResearchLine" />
+				<ref bean="searchFilterProgram" />
+				<ref bean="searchFilterAccessLevel" />
+				<ref bean="searchFilterEntityType"/>
                 <ref bean="searchFilterContentInOriginalBundle"/>
-                <ref bean="searchFilterEntityType"/>
             </list>
         </property>
         <!-- Set TagCloud configuration per discovery configuration -->
@@ -1265,11 +1342,18 @@
                 <ref bean="searchFilterTitle" />
                 <ref bean="searchFilterAuthor" />
                 <ref bean="searchFilterSubject" />
+				<ref bean="searchFilterType" />
+				<ref bean="searchFilterSourceJournal" />
                 <ref bean="searchFilterIssued" />
+				<ref bean="searchFilterCoverageCountryFocus" />
+				<ref bean="searchFilterLanguage" />
+				<ref bean="searchFilterResearchLine" />
+				<ref bean="searchFilterProgram" />
+				<ref bean="searchFilterAccessLevel" />
+				<ref bean="searchFilterEntityType"/>
                 <ref bean="searchFilterContentInOriginalBundle"/>
                 <ref bean="searchFilterFileNameInOriginalBundle" />
                 <ref bean="searchFilterFileDescriptionInOriginalBundle" />
-                <ref bean="searchFilterEntityType"/>
                 <ref bean="searchFilterIsAuthorOfPublicationRelation"/>
                 <ref bean="searchFilterIsProjectOfPublicationRelation"/>
                 <ref bean="searchFilterIsOrgUnitOfPublicationRelation"/>
@@ -2621,8 +2705,8 @@
         <property name="indexFieldName" value="author"/>
         <property name="metadataFields">
             <list>
+				<value>dc.creator</value>
                 <value>dc.contributor.author</value>
-                <value>dc.creator</value>
             </list>
         </property>
         <property name="facetLimit" value="5"/>
@@ -2643,22 +2727,46 @@
         <property name="facetLimit" value="5"/>
         <property name="sortOrderSidebar" value="COUNT"/>
         <property name="sortOrderFilterPage" value="COUNT"/>
-
-
     </bean>
 
     <bean id="searchFilterSubject" class="org.dspace.discovery.configuration.HierarchicalSidebarFacetConfiguration">
         <property name="indexFieldName" value="subject"/>
         <property name="metadataFields">
             <list>
-                <value>dc.subject.*</value>
+                <value>dc.subject</value>
             </list>
         </property>
         <property name="facetLimit" value="5"/>
         <property name="sortOrderSidebar" value="COUNT"/>
         <property name="sortOrderFilterPage" value="COUNT"/>
         <property name="splitter" value="::"/>
-
+		<property name="isOpenByDefault" value="false"/>
+    </bean>
+	
+	<bean id="searchFilterType" class="org.dspace.discovery.configuration.DiscoverySearchFilterFacet">
+        <property name="indexFieldName" value="type"/>
+        <property name="metadataFields">
+            <list>
+                <value>dc.type</value>
+            </list>
+        </property>
+        <property name="facetLimit" value="5"/>
+        <property name="sortOrderSidebar" value="COUNT"/>
+        <property name="sortOrderFilterPage" value="COUNT"/>
+		<property name="isOpenByDefault" value="false"/>
+    </bean>
+	
+	<bean id="searchFilterSourceJournal" class="org.dspace.discovery.configuration.DiscoverySearchFilterFacet">
+        <property name="indexFieldName" value="sourceJournal"/>
+        <property name="metadataFields">
+            <list>
+                <value>dc.source.journal</value>
+            </list>
+        </property>
+        <property name="facetLimit" value="5"/>
+        <property name="sortOrderSidebar" value="COUNT"/>
+        <property name="sortOrderFilterPage" value="COUNT"/>
+		<property name="isOpenByDefault" value="false"/>
     </bean>
 
     <bean id="searchFilterIssued" class="org.dspace.discovery.configuration.DiscoverySearchFilterFacet">
@@ -2675,6 +2783,71 @@
         <property name="isOpenByDefault" value="false"/>
         <property name="pageSize" value="10"/>
         <property name="exposeMinAndMaxValue" value="true"/>
+    </bean>
+	
+	<bean id="searchFilterCoverageCountryFocus" class="org.dspace.discovery.configuration.DiscoverySearchFilterFacet">
+        <property name="indexFieldName" value="coverageCountryFocus"/>
+        <property name="metadataFields">
+            <list>
+                <value>dc.coverage.countryfocus</value>
+            </list>
+        </property>
+        <property name="facetLimit" value="5"/>
+        <property name="sortOrderSidebar" value="COUNT"/>
+        <property name="sortOrderFilterPage" value="COUNT"/>
+		<property name="isOpenByDefault" value="false"/>
+    </bean>
+
+	<bean id="searchFilterLanguage" class="org.dspace.discovery.configuration.DiscoverySearchFilterFacet">
+        <property name="indexFieldName" value="language"/>
+        <property name="metadataFields">
+            <list>
+                <value>dc.language</value>
+            </list>
+        </property>
+        <property name="facetLimit" value="5"/>
+        <property name="sortOrderSidebar" value="COUNT"/>
+        <property name="sortOrderFilterPage" value="COUNT"/>
+		<property name="isOpenByDefault" value="false"/>
+    </bean>
+	
+	<bean id="searchFilterResearchLine" class="org.dspace.discovery.configuration.DiscoverySearchFilterFacet">
+        <property name="indexFieldName" value="researchLine"/>
+        <property name="metadataFields">
+            <list>
+                <value>cm.researchline</value>
+            </list>
+        </property>
+        <property name="facetLimit" value="6"/>
+        <property name="sortOrderSidebar" value="COUNT"/>
+        <property name="sortOrderFilterPage" value="COUNT"/>
+		<property name="isOpenByDefault" value="false"/>
+    </bean>
+	
+	<bean id="searchFilterProgram" class="org.dspace.discovery.configuration.DiscoverySearchFilterFacet">
+        <property name="indexFieldName" value="program"/>
+        <property name="metadataFields">
+            <list>
+                <value>cm.program</value>
+            </list>
+        </property>
+        <property name="facetLimit" value="6"/>
+        <property name="sortOrderSidebar" value="COUNT"/>
+        <property name="sortOrderFilterPage" value="COUNT"/>
+		<property name="isOpenByDefault" value="false"/>
+    </bean>
+	
+	<bean id="searchFilterAccessLevel" class="org.dspace.discovery.configuration.DiscoverySearchFilterFacet">
+        <property name="indexFieldName" value="accessLevel"/>
+        <property name="metadataFields">
+            <list>
+                <value>dc.rights.accesslevel</value>
+            </list>
+        </property>
+        <property name="facetLimit" value="5"/>
+        <property name="sortOrderSidebar" value="COUNT"/>
+        <property name="sortOrderFilterPage" value="COUNT"/>
+		<property name="isOpenByDefault" value="false"/>
     </bean>
 
     <!-- Spatial facet -->
