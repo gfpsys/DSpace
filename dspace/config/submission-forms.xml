@@ -145,7 +145,7 @@
                 <field>
                     <dc-schema>dc</dc-schema>
                     <dc-element>language</dc-element>
-                    <dc-qualifier>iso</dc-qualifier>
+                    <dc-qualifier></dc-qualifier>
                     <repeatable>false</repeatable>
                     <label>Language</label>
                     <input-type value-pairs-name="common_iso_languages">dropdown</input-type>
@@ -406,7 +406,7 @@
 				<field>
                     <dc-schema>dc</dc-schema>
                     <dc-element>language</dc-element>
-                    <dc-qualifier>iso</dc-qualifier>
+                    <dc-qualifier></dc-qualifier>
                     <repeatable>false</repeatable>
                     <label>Idioma</label>
                     <input-type value-pairs-name="common_iso_languages">dropdown</input-type>
@@ -1226,7 +1226,7 @@
                 <field>
                     <dc-schema>dc</dc-schema>
                     <dc-element>language</dc-element>
-                    <dc-qualifier>iso</dc-qualifier>
+                    <dc-qualifier></dc-qualifier>
                     <repeatable>false</repeatable>
                     <label>Idioma</label>
                     <input-type value-pairs-name="common_iso_languages">dropdown</input-type>
