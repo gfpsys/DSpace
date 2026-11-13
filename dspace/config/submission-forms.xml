@@ -378,7 +378,7 @@
                     <repeatable>false</repeatable>
                     <label>Identificador digital de objetos</label>
                     <input-type>onebox</input-type>
-                    <hint>Por ejemplo: 10.xxxx/ejemplo</hint>
+                    <hint>Por ejemplo: https://dx.doi.org/10.xxxx/ejemplo</hint>
                     <required></required>
                 </field>
             </row>
@@ -411,8 +411,20 @@
                     <label>Idioma</label>
                     <input-type value-pairs-name="common_iso_languages">dropdown</input-type>
                     <hint>Selecciona el idioma del recurso</hint>
-					
                     <required></required>
+                </field>
+            </row>
+			<row>
+                <field>
+                    <dc-schema>dc</dc-schema>
+                    <dc-element>identifier</dc-element>
+                    <dc-qualifier>isbn</dc-qualifier>
+                    <repeatable>false</repeatable>
+                    <label>ISBN</label>
+                    <input-type>onebox</input-type>
+                    <hint></hint>
+                    <required></required>
+					<type-bind>Libro,Capítulo de libro</type-bind>
                 </field>
             </row>
         </form>
@@ -466,7 +478,7 @@
                 </field>
             </row>
         </form>
-		<form name="publicationComunidadInvestigacionStep">
+		<form name="publicationCMMetadataStep">
 			<row>
                 <field>
                     <dc-schema>cm</dc-schema>
@@ -489,6 +501,126 @@
                     <input-type value-pairs-name="cm_program">dropdown</input-type>
                     <hint></hint>
                     <required></required>
+                </field>
+            </row>
+			<row>
+                <field>
+                    <dc-schema>dc</dc-schema>
+                    <dc-element>description</dc-element>
+                    <dc-qualifier>tableofcontents</dc-qualifier>
+                    <repeatable>true</repeatable>
+                    <label>Tabla de contenido</label>
+                    <input-type>textarea</input-type>
+                    <hint></hint>
+                    <required></required>
+                </field>
+            </row>
+        </form>
+		<form name="publicationTesisStep">
+			<row>
+                <field>
+                    <dc-schema>dc</dc-schema>
+                    <dc-element>relation</dc-element>
+                    <dc-qualifier>ispartofseries</dc-qualifier>
+                    <repeatable>false</repeatable>
+                    <label>Es parte de la serie / colección</label>
+                    <input-type>onebox</input-type>
+                    <hint></hint>
+                    <required></required>
+                </field>
+            </row>
+			<row>
+				<relation-field>
+                    <relationship-type>isAdvisorOfPublication</relationship-type>
+                    <search-configuration>person</search-configuration>
+                    <repeatable>true</repeatable>
+                    <label>Asesor(a) / director(a) de tesis</label>
+                    <hint>Ejemplo: González Martínez, María Fernanda</hint>
+                    <linked-metadata-field>
+                        <dc-schema>dc</dc-schema>
+                        <dc-element>contributor</dc-element>
+						<dc-qualifier>advisor</dc-qualifier>
+                        <input-type>onebox</input-type>
+                    </linked-metadata-field>
+                    <externalsources>orcid</externalsources>
+                    <required>Se requiere al menos un Asesor</required>
+                </relation-field>
+
+				<relation-field>
+                    <relationship-type>isReviewerOfPublication</relationship-type>
+                    <search-configuration>person</search-configuration>
+                    <repeatable>true</repeatable>
+                    <label>Revisor(a) / lector(a) de tesis</label>
+                    <hint>Ejemplo: González Martínez, María Fernanda</hint>
+                    <linked-metadata-field>
+                        <dc-schema>dc</dc-schema>
+                        <dc-element>contributor</dc-element>
+						<dc-qualifier>reviewer</dc-qualifier>
+                        <input-type>onebox</input-type>
+                    </linked-metadata-field>
+                    <externalsources>orcid</externalsources>
+                    <required></required>
+                </relation-field>
+            </row>
+			<row>
+                <field>
+                    <dc-schema>cm</dc-schema>
+                    <dc-element>degree</dc-element>
+                    <dc-qualifier>name</dc-qualifier>
+                    <repeatable>false</repeatable>
+                    <label>Grado académico</label>
+                    <input-type>onebox</input-type>
+                    <hint>Por ejemplo: Doctorado en Ciencias Sociales</hint>
+                    <required></required>
+					<type-bind>Tesis</type-bind>
+                </field>
+                <field>
+                    <dc-schema>cm</dc-schema>
+                    <dc-element>degree</dc-element>
+                    <dc-qualifier>level</dc-qualifier>
+                    <repeatable>false</repeatable>
+                    <label>Nivel del grado académico</label>
+					<input-type value-pairs-name="cm_degree_level">dropdown</input-type>
+                    <hint>Por ejemplo: Doctorado</hint>
+                    <required></required>
+					<type-bind>Tesis</type-bind>
+                </field>
+            </row>
+			<row>
+                <field>
+                    <dc-schema>dc</dc-schema>
+                    <dc-element>publisher</dc-element>
+                    <dc-qualifier>degree</dc-qualifier>
+                    <repeatable>false</repeatable>
+                    <label>Institución que otorga el grado académico</label>
+                    <input-type>onebox</input-type>
+                    <hint>Por ejemplo: El Colegio Mexiquense</hint>
+                    <required></required>
+					<type-bind>Tesis</type-bind>
+                </field>
+                <field>
+                    <dc-schema>cm</dc-schema>
+                    <dc-element>date</dc-element>
+                    <dc-qualifier>promotion</dc-qualifier>
+                    <repeatable>false</repeatable>
+                    <label>Periodo de promoción académica</label>
+                    <input-type>onebox</input-type>
+                    <hint>Por ejemplo: 2022-2025</hint>
+                    <required></required>
+					<type-bind>Tesis</type-bind>
+                </field>
+            </row>
+			<row>
+                <field>
+                    <dc-schema>dc</dc-schema>
+                    <dc-element>format</dc-element>
+                    <dc-qualifier>extent</dc-qualifier>
+                    <repeatable>false</repeatable>
+                    <label>Extensión / duración</label>
+                    <input-type>onebox</input-type>
+                    <hint></hint>
+                    <required></required>
+					<type-bind>Audio,Vídeo</type-bind>
                 </field>
             </row>
         </form>
@@ -1486,32 +1618,51 @@
 
     <form-value-pairs>
 	
-		<value-pairs value-pairs-name="cm_researchline" dc-term="researchline">
+		<value-pairs value-pairs-name="cm_degree_level" dc-term="degree_level">
             <pair>
-                <displayed-value>Estudios Urbanos y Socioespaciales</displayed-value>
-                <stored-value>Estudios Urbanos y Socioespaciales</stored-value>
-            </pair>
-            <pair>
-                <displayed-value>Estudios Interdisciplinarios sobre el Pasado Indígena</displayed-value>
-                <stored-value>Estudios Interdisciplinarios sobre el Pasado Indígena</stored-value>
+                <displayed-value>Doctorado</displayed-value>
+                <stored-value>Doctorado</stored-value>
             </pair>
 			<pair>
-                <displayed-value>Instituciones, Sociedad Civil y Políticas Públicas</displayed-value>
-                <stored-value>Instituciones, Sociedad Civil y Políticas Públicas</stored-value>
-            </pair>
-            <pair>
-                <displayed-value>Historia Contemporánea</displayed-value>
-                <stored-value>Historia Contemporánea</stored-value>
+                <displayed-value>Especialidad</displayed-value>
+                <stored-value>Especialidad</stored-value>
             </pair>
 			<pair>
-                <displayed-value>Historia de las Instituciones Virreinales</displayed-value>
-                <stored-value>Historia de las Instituciones Virreinales</stored-value>
+                <displayed-value>Licenciatura</displayed-value>
+                <stored-value>Licenciatura</stored-value>
             </pair>
             <pair>
-                <displayed-value>Población, Cultura y Sociedad</displayed-value>
-                <stored-value>Población, Cultura y Sociedad</stored-value>
+                <displayed-value>Maestría</displayed-value>
+                <stored-value>Maestría</stored-value>
             </pair>
         </value-pairs>
+		
+		<value-pairs value-pairs-name="cm_researchline" dc-term="researchline">
+			<pair>
+				<displayed-value>Estudios Urbanos y Socioespaciales</displayed-value>
+				<stored-value>Estudios Urbanos y Socioespaciales</stored-value>
+				</pair>
+			<pair>
+				<displayed-value>Estudios Interdisciplinarios sobre el Pasado Indígena</displayed-value>
+				<stored-value>Estudios Interdisciplinarios sobre el Pasado Indígena</stored-value>
+			</pair>
+			<pair>
+				<displayed-value>Instituciones, Sociedad Civil y Políticas Públicas</displayed-value>
+				<stored-value>Instituciones, Sociedad Civil y Políticas Públicas</stored-value>
+			</pair>
+			<pair>
+				<displayed-value>Historia Contemporánea</displayed-value>
+				<stored-value>Historia Contemporánea</stored-value>
+			</pair>
+			<pair>
+				<displayed-value>Historia de las Instituciones Virreinales</displayed-value>
+				<stored-value>Historia de las Instituciones Virreinales</stored-value>
+			</pair>
+			<pair>
+				<displayed-value>Población, Cultura y Sociedad</displayed-value>
+				<stored-value>Población, Cultura y Sociedad</stored-value>
+			</pair>
+		</value-pairs>
 		
 		<value-pairs value-pairs-name="cm_program" dc-term="program">
             <pair>
@@ -1565,6 +1716,10 @@
 
         <value-pairs value-pairs-name="common_types" dc-term="type">
             <pair>
+                <displayed-value>Audio</displayed-value>
+                <stored-value>Audio</stored-value>
+            </pair>
+			<pair>
                 <displayed-value>Artículo de investigación</displayed-value>
                 <stored-value>Artículo de investigación</stored-value>
             </pair>
@@ -1648,13 +1803,17 @@
                 <displayed-value>Tesis</displayed-value>
                 <stored-value>Tesis</stored-value>
             </pair>
+			<pair>
+                <displayed-value>Vídeo</displayed-value>
+                <stored-value>Vídeo</stored-value>
+            </pair>
             <pair>
                 <displayed-value>Otro</displayed-value>
                 <stored-value>Otro</stored-value>
             </pair>
         </value-pairs>
 
-        <value-pairs value-pairs-name="common_iso_languages" dc-term="language_iso">
+        <value-pairs value-pairs-name="common_iso_languages" dc-term="language">
             <pair>
                 <displayed-value>Español</displayed-value>
                 <stored-value>Español</stored-value>

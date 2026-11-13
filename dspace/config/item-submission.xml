@@ -25,6 +25,22 @@
 		<!-- Colección Información Geoespacial y Cartografía -->
 		<name-map collection-handle="123456789/10" submission-name="ComunidadInvestigacionPublication"/>
 		
+		<!-- Colecciones de la comunidad Docencia y posgrados 123456789/11 -->
+		<!-- Colección Material Didáctico y Recursos Educativos de Posgrado -->
+		<name-map collection-handle="123456789/17" submission-name="ComunidadDocenciaYPosgrados"/>
+		<!-- Colección Tesis de Doctorado en Ciencias Sociales -->
+		<name-map collection-handle="123456789/13" submission-name="ComunidadDocenciaYPosgrados"/>
+		<!-- Colección Tesis de Doctorado en Historia -->
+		<name-map collection-handle="123456789/15" submission-name="ComunidadDocenciaYPosgrados"/>
+		<!-- Colección Tesis de Maestría en Acción y Políticas Públicas -->
+		<name-map collection-handle="123456789/25" submission-name="ComunidadDocenciaYPosgrados"/>
+		<!-- Colección Tesis de Maestría en Ciencias Sociales con especialidad en Desarrollo Municipal -->
+		<name-map collection-handle="123456789/12" submission-name="ComunidadDocenciaYPosgrados"/>
+		<!-- Colección Tesis de Maestría en Historia -->
+		<name-map collection-handle="123456789/14" submission-name="ComunidadDocenciaYPosgrados"/>
+		<!-- Colección Trabajos de Titulación y Proyectos de la Maestría en Gestión Pública y Local (Virtual) -->
+		<name-map collection-handle="123456789/16" submission-name="ComunidadDocenciaYPosgrados"/>
+		
 	
     </submission-map>
 
@@ -166,7 +182,12 @@
             <processing-class>org.dspace.app.rest.submit.step.DescribeStep</processing-class>
             <type>submission-form</type>
         </step-definition>
-		<step-definition id="publicationComunidadInvestigacionStep" mandatory="true">
+		<step-definition id="publicationCMMetadataStep" mandatory="true">
+            <heading>submit.progressbar.describe.stepone</heading>
+            <processing-class>org.dspace.app.rest.submit.step.DescribeStep</processing-class>
+            <type>submission-form</type>
+        </step-definition>
+		<step-definition id="publicationTesisStep" mandatory="true">
             <heading>submit.progressbar.describe.stepone</heading>
             <processing-class>org.dspace.app.rest.submit.step.DescribeStep</processing-class>
             <type>submission-form</type>
@@ -193,7 +214,16 @@
             <step id="collection"/>
             <step id="publicationStep"/>
             <step id="publicationJournalStep"/>
-			<step id="publicationComunidadInvestigacionStep"/>
+			<step id="publicationCMMetadataStep"/>
+			<step id="CustomCCLicenseStep"/>
+            <step id="upload"/>
+        </submission-process>
+		<!-- Colecciones de la comunidad Docencia y posgrados 123456789/11 -->
+		<submission-process name="ComunidadDocenciaYPosgrados">
+            <step id="collection"/>
+            <step id="publicationStep"/>
+            <step id="publicationCMMetadataStep"/>
+			<step id="publicationTesisStep"/>
 			<step id="CustomCCLicenseStep"/>
             <step id="upload"/>
         </submission-process>

@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dspace-dc-types>
+
+    <dspace-header>
+        <title>CM - Relaciones de asesor y revisor</title>
+    </dspace-header>
+
+    <dc-schema>
+        <name>relation</name>
+        <namespace>http://dspace.org/relation</namespace>
+    </dc-schema>
+
+    <!-- Asesor -->
+    <dc-type>
+        <schema>relation</schema>
+        <element>isAdvisorOfPublication</element>
+        <scope_note>Uso interno de DSpace. No editar.</scope_note>
+    </dc-type>
+    <dc-type>
+        <schema>relation</schema>
+        <element>isAdvisorOfPublication</element>
+        <qualifier>latestForDiscovery</qualifier>
+        <scope_note>Uso interno de DSpace. No editar.</scope_note>
+    </dc-type>
+    <dc-type>
+        <schema>relation</schema>
+        <element>isPublicationOfAdvisor</element>
+        <scope_note>Uso interno de DSpace. No editar.</scope_note>
+    </dc-type>
+    <dc-type>
+        <schema>relation</schema>
+        <element>isPublicationOfAdvisor</element>
+        <qualifier>latestForDiscovery</qualifier>
+        <scope_note>Uso interno de DSpace. No editar.</scope_note>
+    </dc-type>
+
+    <!-- Revisor -->
+    <dc-type>
+        <schema>relation</schema>
+        <element>isReviewerOfPublication</element>
+        <scope_note>Uso interno de DSpace. No editar.</scope_note>
+    </dc-type>
+    <dc-type>
+        <schema>relation</schema>
+        <element>isReviewerOfPublication</element>
+        <qualifier>latestForDiscovery</qualifier>
+        <scope_note>Uso interno de DSpace. No editar.</scope_note>
+    </dc-type>
+    <dc-type>
+        <schema>relation</schema>
+        <element>isPublicationOfReviewer</element>
+        <scope_note>Uso interno de DSpace. No editar.</scope_note>
+    </dc-type>
+    <dc-type>
+        <schema>relation</schema>
+        <element>isPublicationOfReviewer</element>
+        <qualifier>latestForDiscovery</qualifier>
+        <scope_note>Uso interno de DSpace. No editar.</scope_note>
+    </dc-type>
+
+    <!-- Campo visible del revisor -->
+    <dc-type>
+        <schema>dc</schema>
+        <element>contributor</element>
+        <qualifier>reviewer</qualifier>
+        <scope_note>Revisor(a) o lector(a) de tesis.</scope_note>
+    </dc-type>
+
+</dspace-dc-types>

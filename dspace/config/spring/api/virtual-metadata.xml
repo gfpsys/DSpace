@@ -12,6 +12,9 @@
                  are to be added to the item that has a relationship with this relationship type-->
             <map>
                 <entry key="isAuthorOfPublication" value-ref="isAuthorOfPublicationMap"/>
+				<!-- CM advisor y reviewer -->
+				<entry key="isAdvisorOfPublication" value-ref="isAdvisorOfPublicationMap"/>
+                <entry key="isReviewerOfPublication" value-ref="isReviewerOfPublicationMap"/>
                 <entry key="isOrgUnitOfPublication" value-ref="isOrgUnitOfPublicationMap"/>
                 <entry key="isPersonOfProject" value-ref="isPersonOfProjectMap"/>
                 <entry key="isOrgUnitOfProject" value-ref="isOrgUnitOfProjectMap"/>
@@ -72,6 +75,42 @@
                 <value>person.identifier.orcid</value>
             </util:list>
         </property>
+    </bean>
+	
+	<!-- CM: Asesor(a) de tesis -> dc.contributor.advisor = "Apellido(s), Nombre(s)" -->
+    <util:map id="isAdvisorOfPublicationMap">
+        <entry key="dc.contributor.advisor" value-ref="publicationAdvisor_name"/>
+    </util:map>
+    <bean class="org.dspace.content.virtual.Concatenate" id="publicationAdvisor_name">
+        <property name="fields">
+            <util:list>
+                <value>person.familyName</value>
+                <value>person.givenName</value>
+            </util:list>
+        </property>
+        <property name="separator">
+            <value>, </value>
+        </property>
+        <property name="useForPlace" value="true"/>
+        <property name="populateWithNameVariant" value="true"/>
+    </bean>
+
+    <!-- CM: Revisor(a) de tesis -> dc.contributor.reviewer = "Apellido(s), Nombre(s)" -->
+    <util:map id="isReviewerOfPublicationMap">
+        <entry key="dc.contributor.reviewer" value-ref="publicationReviewer_name"/>
+    </util:map>
+    <bean class="org.dspace.content.virtual.Concatenate" id="publicationReviewer_name">
+        <property name="fields">
+            <util:list>
+                <value>person.familyName</value>
+                <value>person.givenName</value>
+            </util:list>
+        </property>
+        <property name="separator">
+            <value>, </value>
+        </property>
+        <property name="useForPlace" value="true"/>
+        <property name="populateWithNameVariant" value="true"/>
     </bean>
 
     <!-- Config like this will tell our VirtualMetadataPopulator to include the virtual metadata field
