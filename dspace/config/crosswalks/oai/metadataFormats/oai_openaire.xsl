@@ -13,6 +13,7 @@
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
     xmlns:oaire="http://namespace.openaire.eu/schema/oaire/" xmlns:datacite="http://datacite.org/schema/kernel-4"
     xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:doc="http://www.lyncode.com/xoai"
+    xmlns:dcterms="http://purl.org/dc/terms/"
     xmlns:rdf="http://www.w3.org/TR/rdf-concepts/" version="1.0">
     <xsl:output omit-xml-declaration="yes" method="xml" indent="yes"/>
 
@@ -25,9 +26,8 @@
             <xsl:apply-templates
                 select="doc:metadata/doc:element[@name='dc']/doc:element[@name='title']" mode="datacite"/>
             <!-- datacite:creator -->
-            <xsl:apply-templates
-                select="doc:metadata/doc:element[@name='dc']/doc:element[@name='contributor']/doc:element[@name='author']"
-                mode="datacite"/>
+            <!-- Lee dc.contributor.author y dc.creator -->
+            <xsl:call-template name="creators"/>
             <datacite:contributors>
                 <!-- other types of contributors !=  -->
                 <xsl:apply-templates
@@ -40,24 +40,17 @@
             <xsl:apply-templates
                 select="doc:metadata/doc:element[@name='dc']/doc:element[@name='relation']" mode="oaire"/>
             <!-- datacite:relatedIdentifier -->
-            <xsl:apply-templates
-                select="doc:metadata/doc:element[@name='dc']/doc:element[@name='identifier']" mode="datacite"/>
-            <!-- if dc.identifier.uri has more than 1 value -->
-            <xsl:if
-                test="count(doc:metadata/doc:element[@name='dc']/doc:element[@name='identifier']/doc:element[@name='uri']/doc:element/doc:field[@name='value'])>1">
-                <datacite:alternateIdentifiers>
-                    <xsl:apply-templates
-                        select="doc:metadata/doc:element[@name='dc']/doc:element[@name='identifier']/doc:element[@name='uri']"
-                        mode="datacite_altid"/>
-                </datacite:alternateIdentifiers>
-            </xsl:if>
+            <!-- Incluye dc.source.issn y se omite el contenedor si queda vacío -->
+            <xsl:call-template name="relatedIdentifiers"/>
+            <!-- datacite:alternateIdentifier -->
+            <!-- dc.identifier.uri adicionales y dc.identifier.doi -->
+            <xsl:call-template name="alternateIdentifiers"/>
             <!-- datacite:dates and embargo -->
             <xsl:apply-templates
                 select="doc:metadata/doc:element[@name='dc']/doc:element[@name='date']" mode="datacite"/>
             <!-- dc:language -->
-            <xsl:apply-templates
-                select="doc:metadata/doc:element[@name='dc']/doc:element[@name='language']/doc:element[@name='iso']"
-                mode="dc"/>
+            <!-- dc.language.iso y dc.language (etiqueta en español) a ISO 639-3 -->
+            <xsl:call-template name="languages"/>
             <!-- dc:publisher -->
             <xsl:apply-templates
                 select="doc:metadata/doc:element[@name='dc']/doc:element[@name='publisher']" mode="dc"/>
@@ -65,8 +58,12 @@
             <xsl:apply-templates
                 select="doc:metadata/doc:element[@name='dc']/doc:element[@name='type']" mode="oaire"/>
             <!-- dc:description -->
+            <!-- también dc.description.tableofcontents, dc.description.notes y dc.abstract -->
             <xsl:apply-templates
-                select="doc:metadata/doc:element[@name='dc']/doc:element[@name='description']/doc:element[@name='abstract']"
+                select="doc:metadata/doc:element[@name='dc']/doc:element[@name='description']/doc:element[@name='abstract' or @name='tableofcontents' or @name='notes']"
+                mode="dc"/>
+            <xsl:apply-templates
+                select="doc:metadata/doc:element[@name='dc']/doc:element[@name='abstract']"
                 mode="dc"/>
             <!-- dc:format -->
             <xsl:apply-templates
@@ -75,27 +72,48 @@
             <xsl:apply-templates
                 select="doc:metadata/doc:element[@name='dc']/doc:element[@name='identifier']/doc:element[@name='uri']"
                 mode="datacite"/>
-            <!-- ACCESS RIGHTS from access status mechanism -->
-            <xsl:apply-templates
-                select="doc:metadata/doc:element[@name='others']/doc:element[@name='access-status']" mode="datacite" />
             <!-- datacite:rights -->
+            <!-- dc.rights.accesslevel tiene prioridad; si falta, se usa el
+                 comportamiento original (access status y dc.rights) -->
+            <xsl:call-template name="accessRights"/>
+            <!-- dc:source -->
+            <!-- cita bibliográfica de la fuente (dc.bibliographicCitation) -->
             <xsl:apply-templates
-                select="doc:metadata/doc:element[@name='dc']/doc:element[@name='rights']" mode="datacite"/>
+                select="doc:metadata/doc:element[@name='dc']/doc:element[@name='bibliographicCitation']/doc:element/doc:field[@name='value']"
+                mode="dc_source"/>
             <!-- datacite:subject -->
             <xsl:apply-templates
                 select="doc:metadata/doc:element[@name='dc']/doc:element[@name='subject']" mode="datacite"/>
+            <!-- oaire:licenseCondition -->
+            <!-- dcterms.license y dcterms.license.uri; si faltan, licencia CC de DSpace -->
+            <xsl:call-template name="licenseCondition"/>
+            <!-- dc:coverage -->
+            <!-- dc.coverage.* (countryfocus, other, temporal, spatial) -->
+            <xsl:for-each
+                select="doc:metadata/doc:element[@name='dc']/doc:element[@name='coverage']//doc:field[@name='value']">
+                <dc:coverage>
+                    <xsl:value-of select="."/>
+                </dc:coverage>
+            </xsl:for-each>
             <!-- datacite:size -->
             <xsl:apply-templates
                 select="doc:metadata/doc:element[@name='bundles']/doc:element[@name='bundle']" mode="datacite"/>
+            <!-- oaire:version -->
+            <!-- dc.type.publicationversion a COAR Version Types -->
+            <xsl:apply-templates
+                select="doc:metadata/doc:element[@name='dc']/doc:element[@name='type']/doc:element[@name='publicationversion']/doc:element/doc:field[@name='value'][1]"
+                mode="oaire_version"/>
             <!-- oaire:file -->
             <xsl:apply-templates
                 select="doc:metadata/doc:element[@name='bundles']/doc:element[@name='bundle']" mode="oaire"/>
             <!-- oaire:citation* -->
             <xsl:apply-templates
                 select="doc:metadata/doc:element[@name='oaire']/doc:element[@name='citation']" mode="oaire"/>
-            <!-- CREATIVE COMMON LICENSE -->
-            <xsl:apply-templates
-                select="doc:metadata/doc:element[@name='others']/doc:element[@name='cc']" mode="oaire" />
+            <!-- dc.source.journal, dc.source.volume y dc.source.elocator cuando no hay oaire.citation.* -->
+            <xsl:call-template name="citationFromSource"/>
+            <!-- dcterms:audience -->
+            <!-- dc.audience (lista openaire_audience) al vocabulario en inglés de OpenAIRE -->
+            <xsl:call-template name="audiences"/>
         </oaire:resource>
     </xsl:template>
 
@@ -138,11 +156,16 @@
 
     <!-- datacite.creators -->
     <!-- https://openaire-guidelines-for-literature-repository-managers.readthedocs.io/en/4.0.1/field_creator.html -->
-    <xsl:template
-        match="doc:element[@name='dc']/doc:element[@name='contributor']/doc:element[@name='author']" mode="datacite">
+    <!-- Los autores se catalogan en dc.creator (texto libre o virtual por la
+         relación isAuthorOfPublication); también se mantiene dc.contributor.author -->
+    <xsl:template name="creators">
+        <xsl:variable name="authors"
+            select="doc:metadata/doc:element[@name='dc']/doc:element[@name='contributor']/doc:element[@name='author']/doc:element/doc:field[@name='value']
+                  | doc:metadata/doc:element[@name='dc']/doc:element[@name='creator']/doc:element/doc:field[@name='value']"/>
+        <xsl:if test="$authors">
         <datacite:creators>
             <!-- datacite.creator -->
-            <xsl:for-each select="./doc:element/doc:field[@name='value']">
+            <xsl:for-each select="$authors">
                 <xsl:variable name="isRelatedEntity">
                     <xsl:call-template name="isRelatedEntity">
                         <xsl:with-param name="element" select="."/>
@@ -169,6 +192,7 @@
                 </xsl:choose>
             </xsl:for-each>
         </datacite:creators>
+        </xsl:if>
     </xsl:template>
 
     <!-- datacite:creator -->
@@ -196,7 +220,8 @@
                         <xsl:value-of select="doc:field[starts-with(@name,'organization.legalName')]"/>
                     </xsl:when>
                     <xsl:otherwise>
-                        <xsl:value-of select="doc:field[starts-with(@name,'dc.contributor.author')]"/>
+                        <!-- el nombre virtual del autor se genera en dc.creator -->
+                        <xsl:value-of select="doc:field[starts-with(@name,'dc.contributor.author') or starts-with(@name,'dc.creator')]"/>
                     </xsl:otherwise>
                 </xsl:choose>
             </datacite:creatorName>
@@ -209,6 +234,8 @@
     <!-- https://openaire-guidelines-for-literature-repository-managers.readthedocs.io/en/4.0.1/field_contributor.html -->
     <xsl:template
         match="doc:element[@name='dc']/doc:element[@name='contributor']/doc:element[@name!='author']" mode="datacite">
+        <!-- el calificador (advisor, reviewer, editor...) define el contributorType -->
+        <xsl:variable name="contributorQualifier" select="@name"/>
         <xsl:for-each select="./doc:element/doc:field[@name='value']">
             <xsl:variable name="isRelatedEntity">
                 <xsl:call-template name="isRelatedEntity">
@@ -223,11 +250,19 @@
                             <xsl:with-param name="element" select="."/>
                         </xsl:call-template>
                     </xsl:variable>
-                    <xsl:apply-templates select="$entity" mode="entity_contributor"/>
+                    <xsl:apply-templates select="$entity" mode="entity_contributor">
+                        <xsl:with-param name="contributorQualifier" select="$contributorQualifier"/>
+                    </xsl:apply-templates>
                 </xsl:when>
                 <!-- simple text metadata -->
                 <xsl:otherwise>
                     <datacite:contributor>
+                        <!-- contributorType is a mandatory attribute for each contributor -->
+                        <xsl:attribute name="contributorType">
+                            <xsl:call-template name="getContributorType">
+                                <xsl:with-param name="elementName" select="$contributorQualifier"/>
+                            </xsl:call-template>
+                        </xsl:attribute>
                         <datacite:contributorName>
                             <xsl:value-of select="./text()"/>
                         </datacite:contributorName>
@@ -239,6 +274,9 @@
 
     <!-- datacite:contributor -->
     <xsl:template match="doc:element" mode="entity_contributor">
+        <!-- @name de la entidad construida es "virtual::<id>", por eso el
+             calificador del campo se recibe como parámetro -->
+        <xsl:param name="contributorQualifier" select="./@name"/>
         <xsl:variable name="isOrgUnitEntity">
             <xsl:call-template name="hasOrganizationLegalNameField">
                 <xsl:with-param name="element" select="."/>
@@ -248,7 +286,7 @@
             <!-- contributorType is a mandatory attribute for each contributor -->
             <xsl:attribute name="contributorType">
                 <xsl:call-template name="getContributorType">
-                    <xsl:with-param name="elementName" select="./@name"/>
+                    <xsl:with-param name="elementName" select="$contributorQualifier"/>
                 </xsl:call-template>
             </xsl:attribute>
             <datacite:contributorName>
@@ -303,7 +341,11 @@
     <!-- This template will create a type of identifier exclusive for DSpace
          which is a resolver for that record and, at same time, the REST API end point
      -->
-    <xsl:template match="doc:field[starts-with(@name,'relation.isAuthorOfPublication') and not(contains(@name,'latestForDiscovery'))]"
+    <!-- también para asesor(a) y revisor(a) vinculados como entidad Person -->
+    <xsl:template match="doc:field[(starts-with(@name,'relation.isAuthorOfPublication')
+                                    or starts-with(@name,'relation.isAdvisorOfPublication')
+                                    or starts-with(@name,'relation.isReviewerOfPublication'))
+                                   and not(contains(@name,'latestForDiscovery'))]"
         mode="entity_author">
         <xsl:variable name="url">
             <xsl:call-template name="getDSpaceURL"/>
@@ -408,7 +450,9 @@
     <!-- oaire:fundingReferences -->
     <!-- https://openaire-guidelines-for-literature-repository-managers.readthedocs.io/en/4.0.1/field_projectid.html -->
     <xsl:template match="doc:element[@name='dc']/doc:element[@name='relation']" mode="oaire">
-        <oaire:fundingReferences>
+        <!--  se omite el contenedor si no hay proyectos vinculados
+             (p. ej. cuando solo existe dc.relation.ispartofseries) -->
+        <xsl:variable name="fundingReferences">
             <xsl:for-each select="./doc:element/doc:field[@name='value']">
                 <xsl:variable name="isRelatedEntity">
                     <xsl:call-template name="isRelatedEntity">
@@ -425,7 +469,12 @@
                     <xsl:apply-templates select="$entity" mode="entity_funding"/>
                 </xsl:if>
             </xsl:for-each>
-        </oaire:fundingReferences>
+        </xsl:variable>
+        <xsl:if test="normalize-space($fundingReferences) != ''">
+            <oaire:fundingReferences>
+                <xsl:copy-of select="$fundingReferences"/>
+            </oaire:fundingReferences>
+        </xsl:if>
     </xsl:template>
 
     <!-- oaire:fundingReference -->
@@ -490,10 +539,26 @@
 
     <!-- datacite:relatedIdentifiers -->
     <!-- https://openaire-guidelines-for-literature-repository-managers.readthedocs.io/en/4.0.1/field_relatedidentifier.html -->
-    <xsl:template match="doc:element[@name='dc']/doc:element[@name='identifier']" mode="datacite">
-        <datacite:relatedIdentifiers>
-            <xsl:apply-templates select="./doc:element" mode="datacite_ids"/>
-        </datacite:relatedIdentifiers>
+    <!-- Agrega el ISSN de la revista (dc.source.issn) y omite el contenedor si queda vacío -->
+    <xsl:template name="relatedIdentifiers">
+        <xsl:variable name="relatedIdentifiers">
+            <xsl:apply-templates
+                select="doc:metadata/doc:element[@name='dc']/doc:element[@name='identifier']/doc:element"
+                mode="datacite_ids"/>
+            <xsl:for-each
+                select="doc:metadata/doc:element[@name='dc']/doc:element[@name='source']/doc:element[@name='issn']/doc:element/doc:field[@name='value']">
+                <xsl:call-template name="relatedIdentifierTemplate">
+                    <xsl:with-param name="value" select="text()"/>
+                    <xsl:with-param name="relatedIdentifierType" select="'ISSN'"/>
+                    <xsl:with-param name="relationType" select="'IsPartOf'"/>
+                </xsl:call-template>
+            </xsl:for-each>
+        </xsl:variable>
+        <xsl:if test="normalize-space($relatedIdentifiers) != ''">
+            <datacite:relatedIdentifiers>
+                <xsl:copy-of select="$relatedIdentifiers"/>
+            </datacite:relatedIdentifiers>
+        </xsl:if>
     </xsl:template>
         
    <!-- datacite:relatedIdentifier -->
@@ -567,15 +632,9 @@
     </xsl:template>    
 
     <!-- handle: dc.identifier.doi -->
-    <xsl:template match="doc:element[@name='doi']" mode="datacite_ids">
-        <xsl:for-each select=".//doc:field[@name='value']">
-            <xsl:call-template name="relatedIdentifierTemplate">
-                <xsl:with-param name="value" select="text()"/>
-                <xsl:with-param name="relatedIdentifierType" select="'DOI'"/>
-                <xsl:with-param name="relationType" select="'IsPartOf'"/>
-            </xsl:call-template>
-        </xsl:for-each>
-    </xsl:template>
+    <!-- El DOI identifica al mismo recurso, por eso se exporta como
+         datacite:alternateIdentifier (ver plantilla alternateIdentifiers) -->
+    <xsl:template match="doc:element[@name='doi']" mode="datacite_ids"/>
 
     <!-- handle: dc.identifier.* -->
     <xsl:template match="doc:element" mode="datacite_ids"/>
@@ -610,11 +669,35 @@
         </xsl:variable>
         <!-- only process the first element -->
         <datacite:identifier>
+            <!--  el XSD de OpenAIRE exige mayúsculas (HANDLE, DOI, URL) -->
             <xsl:attribute name="identifierType">
-                <xsl:value-of select="$identifierType"/>
+                <xsl:call-template name="uppercase">
+                    <xsl:with-param name="value" select="$identifierType"/>
+                </xsl:call-template>
             </xsl:attribute>
             <xsl:value-of select="./doc:element[1]/doc:field[@name='value'][1]"/>
         </datacite:identifier>
+    </xsl:template>
+
+    <!--  datacite:alternateIdentifiers  -->
+    <!--   dc.identifier.uri a partir del segundo valor y dc.identifier.doi (sin el prefijo https://doi.org/) -->
+    <xsl:template name="alternateIdentifiers">
+        <xsl:variable name="uris"
+            select="doc:metadata/doc:element[@name='dc']/doc:element[@name='identifier']/doc:element[@name='uri']"/>
+        <xsl:variable name="dois"
+            select="doc:metadata/doc:element[@name='dc']/doc:element[@name='identifier']/doc:element[@name='doi']/doc:element/doc:field[@name='value']"/>
+        <xsl:if test="count($uris/doc:element/doc:field[@name='value'])>1 or $dois">
+            <datacite:alternateIdentifiers>
+                <xsl:apply-templates select="$uris" mode="datacite_altid"/>
+                <xsl:for-each select="$dois">
+                    <datacite:alternateIdentifier alternateIdentifierType="DOI">
+                        <xsl:call-template name="stripDOIResolver">
+                            <xsl:with-param name="value" select="normalize-space(.)"/>
+                        </xsl:call-template>
+                    </datacite:alternateIdentifier>
+                </xsl:for-each>
+            </datacite:alternateIdentifiers>
+        </xsl:if>
     </xsl:template>
 
     <!--  datacite:alternateIdentifier dc.identifier.uri  -->
@@ -703,6 +786,41 @@
     </xsl:template>
 
 
+    <!-- datacite:rights -->
+    <!--  OpenAIRE admite una sola ocurrencia. Se usa dc.rights.accesslevel
+         (valor catalogado, lista openaire_rights) y, si falta o no se reconoce,
+         el comportamiento original: access status y dc.rights. -->
+    <xsl:template name="accessRights">
+        <xsl:variable name="accessLevelName">
+            <xsl:call-template name="resolveCMAccessRight">
+                <xsl:with-param name="field"
+                    select="doc:metadata/doc:element[@name='dc']/doc:element[@name='rights']/doc:element[@name='accesslevel']/doc:element/doc:field[@name='value'][1]"/>
+            </xsl:call-template>
+        </xsl:variable>
+        <xsl:choose>
+            <xsl:when test="$accessLevelName != ''">
+                <datacite:rights>
+                    <xsl:attribute name="rightsURI">
+                        <xsl:call-template name="resolveRightsURI">
+                            <xsl:with-param name="field" select="$accessLevelName"/>
+                        </xsl:call-template>
+                    </xsl:attribute>
+                    <xsl:value-of select="$accessLevelName"/>
+                </datacite:rights>
+            </xsl:when>
+            <!-- ACCESS RIGHTS from access status mechanism -->
+            <xsl:when test="doc:metadata/doc:element[@name='others']/doc:element[@name='access-status']/doc:field[@name='value']">
+                <xsl:apply-templates
+                    select="doc:metadata/doc:element[@name='others']/doc:element[@name='access-status']" mode="datacite" />
+            </xsl:when>
+            <xsl:otherwise>
+                <xsl:apply-templates
+                    select="doc:metadata/doc:element[@name='dc']/doc:element[@name='rights']" mode="datacite"/>
+            </xsl:otherwise>
+        </xsl:choose>
+    </xsl:template>
+
+
    <!-- datacite:subjects -->
    <!-- https://openaire-guidelines-for-literature-repository-managers.readthedocs.io/en/4.0.1/field_subject.html -->
     <xsl:template match="doc:element[@name='dc']/doc:element[@name='subject']" mode="datacite">
@@ -780,12 +898,29 @@
 
     <!-- dc:language -->
     <!-- https://openaire-guidelines-for-literature-repository-managers.readthedocs.io/en/4.0.1/field_language.html -->
-    <xsl:template match="doc:element[@name='dc']/doc:element[@name='language']/doc:element[@name='iso']"
-        mode="dc">
-        <xsl:for-each select="./doc:element/doc:field[@name='value']">
+    <!-- dc.language.iso ya llega en ISO 639-3 desde transformers/openaire4.xsl;
+         dc.language (Español, Inglés...) se traduce a ISO 639-3 y no se repite
+         si coincide con dc.language.iso. "Otro" no se exporta. -->
+    <xsl:template name="languages">
+        <xsl:variable name="isoLanguages"
+            select="doc:metadata/doc:element[@name='dc']/doc:element[@name='language']/doc:element[@name='iso']/doc:element/doc:field[@name='value']"/>
+        <xsl:for-each select="$isoLanguages">
 	        <dc:language>
 	            <xsl:value-of select="./text()"/>
 	        </dc:language>
+        </xsl:for-each>
+        <xsl:for-each
+            select="doc:metadata/doc:element[@name='dc']/doc:element[@name='language']/doc:element[doc:field[@name='value']]/doc:field[@name='value']">
+            <xsl:variable name="languageCode">
+                <xsl:call-template name="resolveLanguageCode">
+                    <xsl:with-param name="value" select="."/>
+                </xsl:call-template>
+            </xsl:variable>
+            <xsl:if test="$languageCode != '' and not($isoLanguages[. = $languageCode])">
+                <dc:language>
+                    <xsl:value-of select="$languageCode"/>
+                </dc:language>
+            </xsl:if>
         </xsl:for-each>
     </xsl:template>
 
@@ -798,20 +933,35 @@
 	           <xsl:value-of select="./text()"/>
 	       </dc:publisher>
         </xsl:for-each>
+        <!--  institución que otorga el grado (tesis), si es distinta de dc.publisher -->
+        <xsl:variable name="publishers" select="./doc:element/doc:field[@name='value']"/>
+        <xsl:for-each select="./doc:element[@name='degree']/doc:element/doc:field[@name='value']">
+            <xsl:if test="not($publishers[. = current()])">
+                <dc:publisher>
+                    <xsl:value-of select="./text()"/>
+                </dc:publisher>
+            </xsl:if>
+        </xsl:for-each>
     </xsl:template>
 
 
     <!-- oaire:resourceType -->
     <!-- https://openaire-guidelines-for-literature-repository-managers.readthedocs.io/en/4.0.1/field_publicationtype.html -->
     <xsl:template match="doc:element[@name='dc']/doc:element[@name='type']/doc:element[doc:field[@name='value']]" mode="oaire">
+        <!--  traduce el tipo en español (lista common_types) a la etiqueta COAR en inglés -->
+        <xsl:variable name="resourceTypeLabel">
+            <xsl:call-template name="resolveCMResourceType">
+                <xsl:with-param name="field" select="./doc:field[@name='value']/text()"/>
+            </xsl:call-template>
+        </xsl:variable>
         <xsl:variable name="resourceTypeGeneral">
             <xsl:call-template name="resolveResourceTypeGeneral">
-                <xsl:with-param name="field" select="./doc:field[@name='value']/text()"/>
+                <xsl:with-param name="field" select="$resourceTypeLabel"/>
             </xsl:call-template>
         </xsl:variable>
         <xsl:variable name="resourceTypeURI">
             <xsl:call-template name="resolveResourceTypeURI">
-                <xsl:with-param name="field" select="./doc:field[@name='value']/text()"/>
+                <xsl:with-param name="field" select="$resourceTypeLabel"/>
             </xsl:call-template>
         </xsl:variable>
         <oaire:resourceType>
@@ -821,22 +971,37 @@
             <xsl:attribute name="uri">
                 <xsl:value-of select="$resourceTypeURI"/>
             </xsl:attribute>
-            <xsl:value-of select="./doc:field[@name='value']/text()"/>
+            <xsl:value-of select="$resourceTypeLabel"/>
         </oaire:resourceType>
     </xsl:template>
 
 
     <!-- dc:description -->
     <!-- https://openaire-guidelines-for-literature-repository-managers.readthedocs.io/en/4.0.1/field_description.html -->
+    <!--  incluye tableofcontents, notes y dc.abstract; se exportan todos los
+         valores de cada idioma (antes solo se tomaba el primero) -->
     <xsl:template
-        match="doc:element[@name='dc']/doc:element[@name='description']/doc:element[@name='abstract']/doc:element"
+        match="doc:element[@name='dc']/doc:element[@name='description']/doc:element[@name='abstract' or @name='tableofcontents' or @name='notes']/doc:element
+             | doc:element[@name='dc']/doc:element[@name='abstract']/doc:element"
         mode="dc">
-        <dc:description>
-            <xsl:call-template name="xmlLanguage">
-                <xsl:with-param name="name" select="@name"/>
-            </xsl:call-template>
-            <xsl:value-of select="./doc:field[@name='value']"/>
-        </dc:description>
+        <xsl:variable name="lang" select="@name"/>
+        <xsl:for-each select="./doc:field[@name='value']">
+            <dc:description>
+                <xsl:call-template name="xmlLanguage">
+                    <xsl:with-param name="name" select="$lang"/>
+                </xsl:call-template>
+                <xsl:value-of select="."/>
+            </dc:description>
+        </xsl:for-each>
+    </xsl:template>
+
+    <!-- dc:source -->
+    <!-- https://openaire-guidelines-for-literature-repository-managers.readthedocs.io/en/4.0.1/field_source.html -->
+    <!--  dc.bibliographicCitation -->
+    <xsl:template match="doc:field" mode="dc_source">
+        <dc:source>
+            <xsl:value-of select="normalize-space(.)"/>
+        </dc:source>
     </xsl:template>
 
     <!-- dc:format -->
@@ -1019,6 +1184,76 @@
         </oaire:citationConferenceDate>
     </xsl:template>
 
+    <!--  datos de la revista desde dc.source.*, solo si no existe el oaire.citation.* equivalente.
+         dc.source.elocator (número de artículo electrónico, p. ej. e2370) se exporta como citationStartPage -->
+    <xsl:template name="citationFromSource">
+        <xsl:variable name="citation" select="doc:metadata/doc:element[@name='oaire']/doc:element[@name='citation']"/>
+        <xsl:variable name="source" select="doc:metadata/doc:element[@name='dc']/doc:element[@name='source']"/>
+        <xsl:if test="not($citation/doc:element[@name='title'])">
+            <xsl:for-each select="$source/doc:element[@name='journal']/doc:element/doc:field[@name='value'][1]">
+                <oaire:citationTitle>
+                    <xsl:value-of select="."/>
+                </oaire:citationTitle>
+            </xsl:for-each>
+        </xsl:if>
+        <xsl:if test="not($citation/doc:element[@name='volume'])">
+            <xsl:for-each select="$source/doc:element[@name='volume']/doc:element/doc:field[@name='value'][1]">
+                <oaire:citationVolume>
+                    <xsl:value-of select="."/>
+                </oaire:citationVolume>
+            </xsl:for-each>
+        </xsl:if>
+        <xsl:if test="not($citation/doc:element[@name='startPage'])">
+            <xsl:for-each select="$source/doc:element[@name='elocator']/doc:element/doc:field[@name='value'][1]">
+                <oaire:citationStartPage>
+                    <xsl:value-of select="."/>
+                </oaire:citationStartPage>
+            </xsl:for-each>
+        </xsl:if>
+    </xsl:template>
+
+    <!-- oaire:version -->
+    <!-- https://openaire-guidelines-for-literature-repository-managers.readthedocs.io/en/4.0.1/field_version.html -->
+    <!--  dc.type.publicationversion (lista openaire_version_types) a COAR Version Types -->
+    <xsl:template match="doc:field" mode="oaire_version">
+        <xsl:variable name="versionLabel">
+            <xsl:call-template name="resolveVersionLabel">
+                <xsl:with-param name="field" select="."/>
+            </xsl:call-template>
+        </xsl:variable>
+        <xsl:if test="$versionLabel != ''">
+            <oaire:version>
+                <xsl:attribute name="uri">
+                    <xsl:call-template name="resolveVersionURI">
+                        <xsl:with-param name="label" select="$versionLabel"/>
+                    </xsl:call-template>
+                </xsl:attribute>
+                <xsl:value-of select="$versionLabel"/>
+            </oaire:version>
+        </xsl:if>
+    </xsl:template>
+
+    <!-- dcterms:audience -->
+    <!-- https://openaire-guidelines-for-literature-repository-managers.readthedocs.io/en/4.0.1/field_audience.html -->
+    <!--  dc.audience (lista openaire_audience) al vocabulario en inglés; sin repetidos -->
+    <xsl:template name="audiences">
+        <xsl:variable name="audiences">
+            <xsl:for-each
+                select="doc:metadata/doc:element[@name='dc']/doc:element[@name='audience']/doc:element/doc:field[@name='value']">
+                <audience>
+                    <xsl:call-template name="resolveAudience">
+                        <xsl:with-param name="field" select="."/>
+                    </xsl:call-template>
+                </audience>
+            </xsl:for-each>
+        </xsl:variable>
+        <xsl:for-each select="$audiences/audience[. != '' and not(. = preceding-sibling::audience)]">
+            <dcterms:audience>
+                <xsl:value-of select="."/>
+            </dcterms:audience>
+        </xsl:for-each>
+    </xsl:template>
+
 
 
    <!--  -->
@@ -1195,8 +1430,12 @@
     </xsl:template>
 
    <!-- get the repository baseUrl globally -->
+   <!--  se toma de una variable global porque dentro de una entidad construida
+        (buildEntityNode) "//" apunta a esa entidad y la URL quedaba vacía -->
+    <xsl:variable name="dspaceURL"
+        select="/doc:metadata/doc:element[@name='repository']/doc:field[@name='url']/text()"/>
     <xsl:template name="getDSpaceURL">
-        <xsl:value-of select="//doc:element[@name='repository']/doc:field[@name='url']/text()"/>
+        <xsl:value-of select="$dspaceURL"/>
     </xsl:template>
 
    <!--  -->
@@ -1435,31 +1674,8 @@
             </xsl:call-template>
         </xsl:variable>
         <xsl:choose>
-            <xsl:when test="$lc_dc_type = 'article'">
-                <xsl:text>literature</xsl:text>
-            </xsl:when>
-            <xsl:when test="$lc_dc_type = 'journal article'">
-                <xsl:text>literature</xsl:text>
-            </xsl:when>
-            <xsl:when test="$lc_dc_type = 'book'">
-                <xsl:text>literature</xsl:text>
-            </xsl:when>
-            <xsl:when test="$lc_dc_type = 'book part'">
-                <xsl:text>literature</xsl:text>
-            </xsl:when>
-            <xsl:when test="$lc_dc_type = 'book review'">
-                <xsl:text>literature</xsl:text>
-            </xsl:when>
-            <xsl:when test="$lc_dc_type = 'bachelor thesis'">
-                <xsl:text>literature</xsl:text>
-            </xsl:when>
-            <xsl:when test="$lc_dc_type = 'doctoral thesis'">
-                <xsl:text>literature</xsl:text>
-            </xsl:when>
-            <xsl:when test="$lc_dc_type = 'master thesis'">
-                <xsl:text>literature</xsl:text>
-            </xsl:when>
-            <xsl:when test="$lc_dc_type = 'thesis'">
+            <!--  se amplía la lista de tipos textuales (antes solo artículos, libros y tesis) -->
+            <xsl:when test="contains('|article|journal article|research article|review article|editorial|letter|letter to the editor|contribution to journal|data paper|book|book part|book review|review|bachelor thesis|doctoral thesis|master thesis|thesis|conference proceedings|conference object|conference paper|conference poster|conference paper not in proceedings|conference poster not in proceedings|lecture|preprint|working paper|report|report part|research report|technical report|internal report|memorandum|other type of report|policy report|project deliverable|report to funding agency|research proposal|technical documentation|bibliography|annotation|text|journal|periodical|', concat('|',$lc_dc_type,'|'))">
                 <xsl:text>literature</xsl:text>
             </xsl:when>
             <xsl:when test="$lc_dc_type = 'dataset'">
@@ -1662,6 +1878,10 @@
             <xsl:when test="$lc_dc_type = 'research article'">
                 <xsl:text>http://purl.org/coar/resource_type/c_2df8fbb1</xsl:text>
             </xsl:when>
+            <!--  Material didáctico -->
+            <xsl:when test="$lc_dc_type = 'learning object'">
+                <xsl:text>http://purl.org/coar/resource_type/c_e059</xsl:text>
+            </xsl:when>
             <!-- other -->
             <xsl:otherwise>
                 <xsl:text>http://purl.org/coar/resource_type/c_1843</xsl:text>
@@ -1730,6 +1950,278 @@
         </xsl:choose>
     </xsl:template>
 
+   <!--  -->
+   <!-- vocabularios de las plantillas de catalogación (submission-forms.xml) -->
+   <!--  -->
+
+    <!--
+        dc.type (lista common_types, en español) a la etiqueta COAR Resource Types en inglés.
+        La tesis se precisa con cm.degree.level (Doctorado, Maestría, Licenciatura).
+        Los valores que no están en la lista (p. ej. etiquetas en inglés) se devuelven
+        tal cual para que los resuelvan resolveResourceTypeGeneral y resolveResourceTypeURI.
+     -->
+    <xsl:template name="resolveCMResourceType">
+        <xsl:param name="field"/>
+        <xsl:variable name="lc_value">
+            <xsl:call-template name="lowercase">
+                <xsl:with-param name="value" select="normalize-space($field)"/>
+            </xsl:call-template>
+        </xsl:variable>
+        <xsl:choose>
+            <xsl:when test="$lc_value = 'tesis'">
+                <xsl:variable name="lc_degree_level">
+                    <xsl:call-template name="lowercase">
+                        <xsl:with-param name="value"
+                            select="normalize-space(/doc:metadata/doc:element[@name='cm']/doc:element[@name='degree']/doc:element[@name='level']/doc:element/doc:field[@name='value'][1])"/>
+                    </xsl:call-template>
+                </xsl:variable>
+                <xsl:choose>
+                    <xsl:when test="$lc_degree_level = 'doctorado'">
+                        <xsl:text>doctoral thesis</xsl:text>
+                    </xsl:when>
+                    <xsl:when test="$lc_degree_level = 'maestría' or $lc_degree_level = 'maestria'">
+                        <xsl:text>master thesis</xsl:text>
+                    </xsl:when>
+                    <xsl:when test="$lc_degree_level = 'licenciatura'">
+                        <xsl:text>bachelor thesis</xsl:text>
+                    </xsl:when>
+                    <xsl:otherwise>
+                        <xsl:text>thesis</xsl:text>
+                    </xsl:otherwise>
+                </xsl:choose>
+            </xsl:when>
+            <xsl:when test="$lc_value = 'artículo' or $lc_value = 'articulo' or $lc_value = 'artículo de revista' or $lc_value = 'articulo de revista'">
+                <xsl:text>journal article</xsl:text>
+            </xsl:when>
+            <xsl:when test="$lc_value = 'artículo de investigación' or $lc_value = 'articulo de investigacion'">
+                <xsl:text>research article</xsl:text>
+            </xsl:when>
+            <xsl:when test="$lc_value = 'audio'">
+                <xsl:text>sound</xsl:text>
+            </xsl:when>
+            <xsl:when test="$lc_value = 'base de datos' or $lc_value = 'conjunto de datos'">
+                <xsl:text>dataset</xsl:text>
+            </xsl:when>
+            <xsl:when test="$lc_value = 'capítulo de libro' or $lc_value = 'capitulo de libro'">
+                <xsl:text>book part</xsl:text>
+            </xsl:when>
+            <xsl:when test="$lc_value = 'documento de trabajo'">
+                <xsl:text>working paper</xsl:text>
+            </xsl:when>
+            <xsl:when test="$lc_value = 'estudio de caso'">
+                <xsl:text>research report</xsl:text>
+            </xsl:when>
+            <xsl:when test="$lc_value = 'imagen'">
+                <xsl:text>image</xsl:text>
+            </xsl:when>
+            <xsl:when test="$lc_value = 'normativa y documento institucional'">
+                <xsl:text>text</xsl:text>
+            </xsl:when>
+            <xsl:when test="$lc_value = 'libro' or $lc_value = 'monografía' or $lc_value = 'monografia'">
+                <xsl:text>book</xsl:text>
+            </xsl:when>
+            <xsl:when test="$lc_value = 'mapa'">
+                <xsl:text>map</xsl:text>
+            </xsl:when>
+            <xsl:when test="$lc_value = 'material didáctico' or $lc_value = 'material didactico'">
+                <xsl:text>learning object</xsl:text>
+            </xsl:when>
+            <xsl:when test="$lc_value = 'memoria de congreso'">
+                <xsl:text>conference proceedings</xsl:text>
+            </xsl:when>
+            <xsl:when test="$lc_value = 'ponencia'">
+                <xsl:text>conference paper</xsl:text>
+            </xsl:when>
+            <xsl:when test="$lc_value = 'póster académico' or $lc_value = 'poster académico' or $lc_value = 'poster academico'">
+                <xsl:text>conference poster</xsl:text>
+            </xsl:when>
+            <xsl:when test="$lc_value = 'preprint'">
+                <xsl:text>preprint</xsl:text>
+            </xsl:when>
+            <xsl:when test="$lc_value = 'proyecto'">
+                <xsl:text>research proposal</xsl:text>
+            </xsl:when>
+            <xsl:when test="$lc_value = 'reporte técnico' or $lc_value = 'reporte tecnico'">
+                <xsl:text>technical report</xsl:text>
+            </xsl:when>
+            <xsl:when test="$lc_value = 'reseña' or $lc_value = 'resena'">
+                <xsl:text>review</xsl:text>
+            </xsl:when>
+            <xsl:when test="$lc_value = 'vídeo' or $lc_value = 'video'">
+                <xsl:text>video</xsl:text>
+            </xsl:when>
+            <xsl:when test="$lc_value = 'otro'">
+                <xsl:text>other</xsl:text>
+            </xsl:when>
+            <xsl:otherwise>
+                <xsl:value-of select="$lc_value"/>
+            </xsl:otherwise>
+        </xsl:choose>
+    </xsl:template>
+
+    <!--
+        dc.language (lista common_iso_languages: Español, Inglés, Otro) a ISO 639-3.
+        También acepta códigos ISO 639-1/639-3. Devuelve vacío para "Otro" y valores desconocidos.
+        https://openaire-guidelines-for-literature-repository-managers.readthedocs.io/en/4.0.1/field_language.html
+     -->
+    <xsl:template name="resolveLanguageCode">
+        <xsl:param name="value"/>
+        <xsl:variable name="lc_value">
+            <xsl:call-template name="lowercase">
+                <xsl:with-param name="value" select="normalize-space($value)"/>
+            </xsl:call-template>
+        </xsl:variable>
+        <xsl:choose>
+            <xsl:when test="$lc_value = 'español' or $lc_value = 'espanol' or $lc_value = 'spanish' or $lc_value = 'es' or $lc_value = 'spa'">
+                <xsl:text>spa</xsl:text>
+            </xsl:when>
+            <xsl:when test="$lc_value = 'inglés' or $lc_value = 'ingles' or $lc_value = 'english' or $lc_value = 'en' or $lc_value = 'eng'">
+                <xsl:text>eng</xsl:text>
+            </xsl:when>
+            <xsl:when test="$lc_value = 'portugués' or $lc_value = 'portugues' or $lc_value = 'português' or $lc_value = 'portuguese' or $lc_value = 'pt' or $lc_value = 'por'">
+                <xsl:text>por</xsl:text>
+            </xsl:when>
+            <xsl:when test="$lc_value = 'francés' or $lc_value = 'frances' or $lc_value = 'français' or $lc_value = 'french' or $lc_value = 'fr' or $lc_value = 'fra'">
+                <xsl:text>fra</xsl:text>
+            </xsl:when>
+            <xsl:when test="$lc_value = 'alemán' or $lc_value = 'aleman' or $lc_value = 'german' or $lc_value = 'de' or $lc_value = 'deu'">
+                <xsl:text>deu</xsl:text>
+            </xsl:when>
+            <xsl:when test="$lc_value = 'italiano' or $lc_value = 'italian' or $lc_value = 'it' or $lc_value = 'ita'">
+                <xsl:text>ita</xsl:text>
+            </xsl:when>
+            <xsl:otherwise/>
+        </xsl:choose>
+    </xsl:template>
+
+    <!--
+        dc.rights.accesslevel (lista openaire_rights) a la etiqueta COAR Access Rights.
+        También acepta las etiquetas COAR en inglés. Devuelve vacío si no se reconoce.
+     -->
+    <xsl:template name="resolveCMAccessRight">
+        <xsl:param name="field"/>
+        <xsl:variable name="lc_value">
+            <xsl:call-template name="lowercase">
+                <xsl:with-param name="value" select="normalize-space($field)"/>
+            </xsl:call-template>
+        </xsl:variable>
+        <xsl:choose>
+            <xsl:when test="$lc_value = 'acceso abierto' or $lc_value = 'open access'">
+                <xsl:text>open access</xsl:text>
+            </xsl:when>
+            <xsl:when test="$lc_value = 'acceso bajo embargo' or $lc_value = 'acceso embargado' or $lc_value = 'embargoed access'">
+                <xsl:text>embargoed access</xsl:text>
+            </xsl:when>
+            <xsl:when test="$lc_value = 'acceso restringido' or $lc_value = 'restricted access'">
+                <xsl:text>restricted access</xsl:text>
+            </xsl:when>
+            <xsl:when test="$lc_value = 'acceso cerrado' or $lc_value = 'metadata only access'">
+                <xsl:text>metadata only access</xsl:text>
+            </xsl:when>
+            <xsl:otherwise/>
+        </xsl:choose>
+    </xsl:template>
+
+    <!--
+        dc.type.publicationversion (lista openaire_version_types) a la etiqueta COAR Version Types.
+        También acepta los valores DRIVER (info:eu-repo/semantics/...Version).
+        https://openaire-guidelines-for-literature-repository-managers.readthedocs.io/en/4.0.1/field_version.html
+     -->
+    <xsl:template name="resolveVersionLabel">
+        <xsl:param name="field"/>
+        <xsl:variable name="lc_value">
+            <xsl:call-template name="lowercase">
+                <xsl:with-param name="value" select="normalize-space($field)"/>
+            </xsl:call-template>
+        </xsl:variable>
+        <xsl:choose>
+            <xsl:when test="$lc_value = 'borrador' or contains($lc_value, 'draft')">
+                <xsl:text>AO</xsl:text>
+            </xsl:when>
+            <xsl:when test="$lc_value = 'versión enviada' or $lc_value = 'version enviada' or contains($lc_value, 'submittedversion')">
+                <xsl:text>SMUR</xsl:text>
+            </xsl:when>
+            <xsl:when test="$lc_value = 'versión aceptada' or $lc_value = 'version aceptada' or contains($lc_value, 'acceptedversion')">
+                <xsl:text>AM</xsl:text>
+            </xsl:when>
+            <xsl:when test="$lc_value = 'versión publicada' or $lc_value = 'version publicada' or contains($lc_value, 'publishedversion')">
+                <xsl:text>VoR</xsl:text>
+            </xsl:when>
+            <xsl:when test="$lc_value = 'versión actualizada' or $lc_value = 'version actualizada' or contains($lc_value, 'updatedversion')">
+                <xsl:text>CVoR</xsl:text>
+            </xsl:when>
+            <xsl:otherwise/>
+        </xsl:choose>
+    </xsl:template>
+
+    <!-- URI COAR de cada etiqueta de versión -->
+    <xsl:template name="resolveVersionURI">
+        <xsl:param name="label"/>
+        <xsl:choose>
+            <xsl:when test="$label = 'AO'">
+                <xsl:text>http://purl.org/coar/version/c_b1a7d7d4d402bcce</xsl:text>
+            </xsl:when>
+            <xsl:when test="$label = 'SMUR'">
+                <xsl:text>http://purl.org/coar/version/c_71e4c1898caa6e32</xsl:text>
+            </xsl:when>
+            <xsl:when test="$label = 'AM'">
+                <xsl:text>http://purl.org/coar/version/c_ab4af688f83e57aa</xsl:text>
+            </xsl:when>
+            <xsl:when test="$label = 'VoR'">
+                <xsl:text>http://purl.org/coar/version/c_970fb48d4fbd8a85</xsl:text>
+            </xsl:when>
+            <xsl:when test="$label = 'CVoR'">
+                <xsl:text>http://purl.org/coar/version/c_e19f295774971610</xsl:text>
+            </xsl:when>
+        </xsl:choose>
+    </xsl:template>
+
+    <!--
+        dc.audience (lista openaire_audience) al vocabulario de OpenAIRE (ERIC, en inglés).
+        Devuelve vacío si no se reconoce.
+     -->
+    <xsl:template name="resolveAudience">
+        <xsl:param name="field"/>
+        <xsl:variable name="lc_value">
+            <xsl:call-template name="lowercase">
+                <xsl:with-param name="value" select="normalize-space($field)"/>
+            </xsl:call-template>
+        </xsl:variable>
+        <xsl:choose>
+            <xsl:when test="$lc_value = 'administradores'">Administrators</xsl:when>
+            <xsl:when test="$lc_value = 'beneficiarios y solicitantes de fondos federales'">Federal Funds Recipients and Applicants</xsl:when>
+            <xsl:when test="$lc_value = 'bibliotecarios'">Librarians</xsl:when>
+            <xsl:when test="$lc_value = 'consejeros'">Counsellors</xsl:when>
+            <xsl:when test="$lc_value = 'docentes'">Teachers</xsl:when>
+            <xsl:when test="$lc_value = 'grupos comunitarios'">Community Groups</xsl:when>
+            <xsl:when test="$lc_value = 'estudiantes'">Students</xsl:when>
+            <xsl:when test="$lc_value = 'investigadores'">Researchers</xsl:when>
+            <xsl:when test="$lc_value = 'medios de comunicación' or $lc_value = 'medios de comunicacion'">News Media</xsl:when>
+            <xsl:when test="$lc_value = 'padres y familias'">Parents and Families</xsl:when>
+            <xsl:when test="$lc_value = 'personal de apoyo escolar'">School Support Staff</xsl:when>
+            <xsl:when test="$lc_value = 'proveedores de ayuda financiera para estudiantes'">Student Financial Aid Providers</xsl:when>
+            <xsl:when test="$lc_value = 'responsables de políticas' or $lc_value = 'responsables de politicas'">Policymakers</xsl:when>
+            <xsl:when test="$lc_value = 'otros' or $lc_value = 'público en general' or $lc_value = 'publico en general'">Other</xsl:when>
+            <xsl:otherwise/>
+        </xsl:choose>
+    </xsl:template>
+
+    <!-- quita el resolvedor (https://doi.org/, http://dx.doi.org/) y deja el DOI como 10.xxxx/... -->
+    <xsl:template name="stripDOIResolver">
+        <xsl:param name="value"/>
+        <xsl:choose>
+            <xsl:when test="contains($value, 'doi.org/')">
+                <xsl:value-of select="substring-after($value, 'doi.org/')"/>
+            </xsl:when>
+            <xsl:when test="starts-with($value, 'doi:')">
+                <xsl:value-of select="substring-after($value, 'doi:')"/>
+            </xsl:when>
+            <xsl:otherwise>
+                <xsl:value-of select="$value"/>
+            </xsl:otherwise>
+        </xsl:choose>
+    </xsl:template>
+
    <!-- xml:language -->
    <!-- this template will add a xml:lang parameter with the defined language of an element -->
     <xsl:template name="xmlLanguage">
@@ -1751,6 +2243,45 @@
         <xsl:value-of select="doc:metadata/doc:element[@name='dc']/doc:element[@name='date']/doc:element[@name='issued']/doc:element/doc:field[@name='value']/text()"/>
     </xsl:variable>
     
+    <!-- oaire:licenseCondition -->
+    <!-- https://openaire-guidelines-for-literature-repository-managers.readthedocs.io/en/4.0.1/field_licensecondition.html -->
+    <!-- la licencia se cataloga en dcterms.license (nombre) y dcterms.license.uri
+         (paso CustomCCLicenseStep). Si ambos están vacíos se usa la licencia CC de DSpace. -->
+    <xsl:template name="licenseCondition">
+        <xsl:variable name="licenseName"
+            select="normalize-space(doc:metadata/doc:element[@name='dcterms']/doc:element[@name='license']/doc:element/doc:field[@name='value'][1])"/>
+        <xsl:variable name="licenseURI"
+            select="normalize-space(doc:metadata/doc:element[@name='dcterms']/doc:element[@name='license']/doc:element[@name='uri']/doc:element/doc:field[@name='value'][1])"/>
+        <xsl:choose>
+            <xsl:when test="$licenseName != '' or $licenseURI != ''">
+                <oaire:licenseCondition>
+                    <xsl:if test="normalize-space($ccstart) != ''">
+                        <xsl:attribute name="startDate">
+                            <xsl:value-of select="$ccstart"/>
+                        </xsl:attribute>
+                    </xsl:if>
+                    <xsl:if test="$licenseURI != ''">
+                        <xsl:attribute name="uri">
+                            <xsl:value-of select="$licenseURI"/>
+                        </xsl:attribute>
+                    </xsl:if>
+                    <xsl:choose>
+                        <xsl:when test="$licenseName != ''">
+                            <xsl:value-of select="$licenseName"/>
+                        </xsl:when>
+                        <xsl:otherwise>
+                            <xsl:value-of select="$licenseURI"/>
+                        </xsl:otherwise>
+                    </xsl:choose>
+                </oaire:licenseCondition>
+            </xsl:when>
+            <xsl:otherwise>
+                <xsl:apply-templates
+                    select="doc:metadata/doc:element[@name='others']/doc:element[@name='cc']" mode="oaire" />
+            </xsl:otherwise>
+        </xsl:choose>
+    </xsl:template>
+
     <xsl:template
         match="doc:element[@name='others']/doc:element[@name='cc']"
         mode="oaire">
@@ -1772,5 +2303,6 @@
     <xsl:template match="text()|@*" mode="datacite"/>
     <xsl:template match="text()|@*" mode="entity_author"/>
     <xsl:template match="text()|@*" mode="entity_funding"/>
+    <xsl:template match="text()|@*" mode="dc"/>
 
 </xsl:stylesheet>

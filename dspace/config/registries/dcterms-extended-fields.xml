@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE dspace-dc-types SYSTEM "dspace-dc-types.dtd">
+
+<!--
+  Campos personalizados del CM en el esquema dcterms.
+  El esquema lo declara dcterms-types.xml, por lo que este archivo
+  debe cargarse después de él.
+-->
+<dspace-dc-types>
+
+    <dspace-header>
+        <title>CM - Campos adicionales del esquema dcterms</title>
+    </dspace-header>
+
+    <!-- dcterms: plantilla CustomCCLicenseStep -->
+    <dc-type>
+        <schema>dcterms</schema>
+        <element>license</element>
+        <qualifier>uri</qualifier>
+    </dc-type>
+
+</dspace-dc-types>

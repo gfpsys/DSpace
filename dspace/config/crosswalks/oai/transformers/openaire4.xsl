@@ -73,8 +73,9 @@
 
     <!-- Modifying dc.rights -->
     <!-- Removing unwanted -->
+    <!-- Se conserva dc.rights.accesslevel; oai_openaire.xsl lo traduce a COAR -->
     <xsl:template
-        match="/doc:metadata/doc:element[@name='dc']/doc:element[@name='rights']/doc:element/doc:element"/>
+        match="/doc:metadata/doc:element[@name='dc']/doc:element[@name='rights']/doc:element[@name!='accesslevel']/doc:element"/>
 
     <!-- 
         Normalizing dc.rights according to COAR Controlled Vocabulary for
@@ -337,8 +338,10 @@
                 test="$lc_dc_type = 'research article' or $lc_dc_type = 'researcharticle' or $dc_type = 'http://purl.org/coar/resource_type/c_2df8fbb1'">
                 <xsl:text>research article</xsl:text>
             </xsl:when>
+            <!-- Los valores no reconocidos (en español) se conservan;
+                 oai_openaire.xsl los traduce a COAR -->
             <xsl:otherwise>
-                <xsl:text>other</xsl:text>
+                <xsl:value-of select="$dc_type"/>
             </xsl:otherwise>
         </xsl:choose>
 

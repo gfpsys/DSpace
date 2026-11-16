@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE dspace-dc-types SYSTEM "dspace-dc-types.dtd">
+
+<dspace-dc-types>
+
+    <dspace-header>
+        <title>CM - Esquema de metadatos institucional</title>
+    </dspace-header>
+
+    <dc-schema>
+        <name>cm</name>
+        <namespace>https://www.cmq.edu.mx/</namespace>
+    </dc-schema>
+
+    <!-- Seminarios / líneas de investigación (publicationCMMetadataStep) -->
+    <dc-type>
+        <schema>cm</schema>
+        <element>researchline</element>
+        <scope_note>Líneas / Seminarios de Investigación
+Research Areas / Seminars</scope_note>
+    </dc-type>
+
+    <!-- Programas educativos / posgrados (publicationCMMetadataStep) -->
+    <dc-type>
+        <schema>cm</schema>
+        <element>program</element>
+        <scope_note>Programas Educativos / Posgrados
+Educational Programs / Postgraduate Studies</scope_note>
+    </dc-type>
+
+    <!-- Tesis (publicationTesisStep) -->
+    <dc-type>
+        <schema>cm</schema>
+        <element>degree</element>
+        <qualifier>name</qualifier>
+        <scope_note>Grado académico</scope_note>
+    </dc-type>
+    <dc-type>
+        <schema>cm</schema>
+        <element>degree</element>
+        <qualifier>level</qualifier>
+        <scope_note>Nivel del grado académico</scope_note>
+    </dc-type>
+    <dc-type>
+        <schema>cm</schema>
+        <element>date</element>
+        <qualifier>promotion</qualifier>
+        <scope_note>Periodo de promoción académica</scope_note>
+    </dc-type>
+
+</dspace-dc-types>
