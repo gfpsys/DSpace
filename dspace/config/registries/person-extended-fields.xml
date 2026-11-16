@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE dspace-dc-types SYSTEM "dspace-dc-types.dtd">
+
+<!--
+  Campos personalizados del CM en el esquema person.
+  El esquema lo declara schema-person-types.xml, por lo que este archivo
+  debe cargarse después de él.
+-->
+<dspace-dc-types>
+
+    <dspace-header>
+        <title>CM - Campos adicionales del esquema person</title>
+    </dspace-header>
+
+    <!-- person: plantilla personStep -->
+    <dc-type>
+        <schema>person</schema>
+        <element>alternateName</element>
+    </dc-type>
+
+</dspace-dc-types>

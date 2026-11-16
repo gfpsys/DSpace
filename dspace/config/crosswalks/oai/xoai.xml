@@ -244,6 +244,9 @@
                * AND Driver "open access" condition is specified
              This filter is only used in the DRIVER context ([oai]/driver)
         -->
+        <!-- CM: además de las condiciones originales, acepta los valores de las plantillas
+             del CM: autor en dc.creator, tipo en español (lista common_types) y
+             dc.rights.accesslevel = "Acceso abierto". -->
         <Filter id="driverFilter">
             <Definition>
                 <And>
@@ -253,14 +256,21 @@
                                 <Custom ref="titleExistsCondition"/>
                             </LeftCondition>
                             <RightCondition>
-                                <Custom ref="authorExistsCondition"/>
+                                <Custom ref="cmAuthorExistsCondition"/>
                             </RightCondition>
                         </And>
                     </LeftCondition>
                     <RightCondition>
                         <And>
                             <LeftCondition>
-                                <Custom ref="driverDocumentTypeCondition"/>
+                                <Or>
+                                    <LeftCondition>
+                                        <Custom ref="driverDocumentTypeCondition"/>
+                                    </LeftCondition>
+                                    <RightCondition>
+                                        <Custom ref="cmDocumentTypeCondition"/>
+                                    </RightCondition>
+                                </Or>
                             </LeftCondition>
                             <RightCondition>
                                 <And>
@@ -275,7 +285,14 @@
                                         </Or>
                                     </LeftCondition>
                                     <RightCondition>
-                                        <Custom ref="driverAccessCondition"/>
+                                        <Or>
+                                            <LeftCondition>
+                                                <Custom ref="driverAccessCondition"/>
+                                            </LeftCondition>
+                                            <RightCondition>
+                                                <Custom ref="cmOpenAccessCondition"/>
+                                            </RightCondition>
+                                        </Or>
                                     </RightCondition>
                                 </And>
                             </RightCondition>
@@ -293,6 +310,9 @@
                * AND the Openaire "dc.relation" is specified
              This filter is only used in the Openaire context ([oai]/openaire).
         -->
+        <!--  además de las condiciones originales, acepta los valores de las plantillas
+             del CM: autor en dc.creator, tipo en español (lista common_types) y
+             dc.rights.accesslevel = "Acceso abierto". -->
         <Filter id="openAireFilter">
             <Definition>
                 <And>
@@ -304,12 +324,19 @@
                                         <Custom ref="titleExistsCondition"/>
                                     </LeftCondition>
                                     <RightCondition>
-                                        <Custom ref="authorExistsCondition"/>
+                                        <Custom ref="cmAuthorExistsCondition"/>
                                     </RightCondition>
                                 </And>
                             </LeftCondition>
                             <RightCondition>
-                                <Custom ref="driverDocumentTypeCondition"/>
+                                <Or>
+                                    <LeftCondition>
+                                        <Custom ref="driverDocumentTypeCondition"/>
+                                    </LeftCondition>
+                                    <RightCondition>
+                                        <Custom ref="cmDocumentTypeCondition"/>
+                                    </RightCondition>
+                                </Or>
                             </RightCondition>
                         </And>
                     </LeftCondition>
@@ -328,7 +355,14 @@
                                         </Or>
                                     </LeftCondition>
                                     <RightCondition>
-                                        <Custom ref="driverAccessCondition"/>
+                                        <Or>
+                                            <LeftCondition>
+                                                <Custom ref="driverAccessCondition"/>
+                                            </LeftCondition>
+                                            <RightCondition>
+                                                <Custom ref="cmOpenAccessCondition"/>
+                                            </RightCondition>
+                                        </Or>
                                     </RightCondition>
                                 </And>
                             </LeftCondition>
@@ -585,6 +619,70 @@
                 <string name="operator">contains</string>
                 <list name="values">
                     <string>openAccess</string>
+                </list>
+            </Configuration>
+        </CustomCondition>
+
+        <!-- CM: el ítem tiene autor en dc.creator (texto libre o virtual por la relación
+             isAuthorOfPublication) o en dc.contributor.author -->
+        <CustomCondition id="cmAuthorExistsCondition">
+            <Class>org.dspace.xoai.filter.DSpaceMetadataExistsFilter</Class>
+            <Configuration>
+                <list name="fields">
+                    <string>dc.contributor.author</string>
+                    <string>dc.creator</string>
+                    <string>relation.isAuthorOfPublication</string>
+                </list>
+            </Configuration>
+        </CustomCondition>
+
+        <!-- CM: dc.type con un valor de la lista common_types (submission-forms.xml)
+             o un valor heredado de importaciones. oai_dc.xsl los traduce al vocabulario DRIVER. -->
+        <CustomCondition id="cmDocumentTypeCondition">
+            <Class>org.dspace.xoai.filter.DSpaceAtLeastOneMetadataFilter</Class>
+            <Configuration>
+                <string name="field">dc.type</string>
+                <string name="operator">equal</string>
+                <list name="values">
+                    <string>Artículo</string>
+                    <string>Artículo de investigación</string>
+                    <string>Artículo de revista</string>
+                    <string>Audio</string>
+                    <string>Base de datos</string>
+                    <string>Book</string>
+                    <string>Capítulo de libro</string>
+                    <string>Conjunto de datos</string>
+                    <string>Documento de trabajo</string>
+                    <string>Estudio de caso</string>
+                    <string>Imagen</string>
+                    <string>Libro</string>
+                    <string>Mapa</string>
+                    <string>Material didáctico</string>
+                    <string>Memoria de congreso</string>
+                    <string>Monografía</string>
+                    <string>Normativa y Documento Institucional</string>
+                    <string>Otro</string>
+                    <string>Ponencia</string>
+                    <string>Póster académico</string>
+                    <string>Preprint</string>
+                    <string>Proyecto</string>
+                    <string>Reporte técnico</string>
+                    <string>Reseña</string>
+                    <string>Tesis</string>
+                    <string>Vídeo</string>
+                </list>
+            </Configuration>
+        </CustomCondition>
+
+        <!-- CM: dc.rights.accesslevel indica acceso abierto (lista openaire_rights) -->
+        <CustomCondition id="cmOpenAccessCondition">
+            <Class>org.dspace.xoai.filter.DSpaceAtLeastOneMetadataFilter</Class>
+            <Configuration>
+                <string name="field">dc.rights.accesslevel</string>
+                <string name="operator">equal</string>
+                <list name="values">
+                    <string>Acceso abierto</string>
+                    <string>Acceso Abierto</string>
                 </list>
             </Configuration>
         </CustomCondition>

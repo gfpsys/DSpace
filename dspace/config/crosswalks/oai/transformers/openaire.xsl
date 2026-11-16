@@ -30,7 +30,8 @@
 	
 	<!-- Prefixing and Modifying dc.rights -->
 	<!-- Removing unwanted -->
-	<xsl:template match="/doc:metadata/doc:element[@name='dc']/doc:element[@name='rights']/doc:element/doc:element" />
+	<!--  se conserva dc.rights.accesslevel; oai_dc.xsl lo traduce al vocabulario DRIVER / OpenAIRE 3 -->
+	<xsl:template match="/doc:metadata/doc:element[@name='dc']/doc:element[@name='rights']/doc:element[@name!='accesslevel']/doc:element" />
 	<!-- Replacing -->
 	<xsl:template match="/doc:metadata/doc:element[@name='dc']/doc:element[@name='rights']/doc:element/doc:field/text()">
 		<xsl:choose>

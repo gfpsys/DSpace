@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE dspace-dc-types SYSTEM "dspace-dc-types.dtd">
+
+<!--
+  Campos personalizados del CM en el esquema dc.
+  El esquema lo declara dublin-core-types.xml, por lo que este archivo
+  debe cargarse después de él.
+-->
+<dspace-dc-types>
+
+    <dspace-header>
+        <title>CM - Campos adicionales del esquema dc</title>
+    </dspace-header>
+
+    <!-- dc: plantilla publicationStep -->
+    <dc-type>
+        <schema>dc</schema>
+        <element>description</element>
+        <qualifier>notes</qualifier>
+    </dc-type>
+    <dc-type>
+        <schema>dc</schema>
+        <element>type</element>
+        <qualifier>publicationversion</qualifier>
+    </dc-type>
+    <dc-type>
+        <schema>dc</schema>
+        <element>rights</element>
+        <qualifier>accesslevel</qualifier>
+    </dc-type>
+    <dc-type>
+        <schema>dc</schema>
+        <element>coverage</element>
+        <qualifier>countryfocus</qualifier>
+    </dc-type>
+    <dc-type>
+        <schema>dc</schema>
+        <element>coverage</element>
+        <qualifier>other</qualifier>
+    </dc-type>
+    <dc-type>
+        <schema>dc</schema>
+        <element>audience</element>
+    </dc-type>
+    <dc-type>
+        <schema>dc</schema>
+        <element>bibliographicCitation</element>
+        <scope_note>Cita</scope_note>
+    </dc-type>
+
+    <!-- dc: plantilla publicationJournalStep -->
+    <dc-type>
+        <schema>dc</schema>
+        <element>source</element>
+        <qualifier>journal</qualifier>
+    </dc-type>
+    <dc-type>
+        <schema>dc</schema>
+        <element>source</element>
+        <qualifier>elocator</qualifier>
+    </dc-type>
+    <dc-type>
+        <schema>dc</schema>
+        <element>source</element>
+        <qualifier>issn</qualifier>
+    </dc-type>
+    <dc-type>
+        <schema>dc</schema>
+        <element>source</element>
+        <qualifier>volume</qualifier>
+    </dc-type>
+
+    <!-- dc: plantilla publicationTesisStep -->
+    <dc-type>
+        <schema>dc</schema>
+        <element>publisher</element>
+        <qualifier>degree</qualifier>
+        <scope_note>Institución que otorga el grado académico</scope_note>
+    </dc-type>
+
+    <!-- dc: no se usa en ninguna plantilla, pero tiene valores en la base -->
+    <dc-type>
+        <schema>dc</schema>
+        <element>abstract</element>
+    </dc-type>
+
+</dspace-dc-types>

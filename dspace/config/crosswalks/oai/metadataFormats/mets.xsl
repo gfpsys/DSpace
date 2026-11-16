@@ -33,6 +33,15 @@
 						xsi:schemaLocation="http://www.loc.gov/mods/v3 http://www.loc.gov/standards/mods/v3/mods-3-1.xsd">
 						<mods:mods
 							xsi:schemaLocation="http://www.loc.gov/mods/v3 http://www.loc.gov/standards/mods/v3/mods-3-1.xsd">
+							<!--  los autores se catalogan en dc.creator -->
+							<xsl:for-each select="doc:metadata/doc:element[@name='dc']/doc:element[@name='creator']/doc:element/doc:field[@name='value']">
+							<mods:name>
+								<mods:role>
+									<mods:roleTerm type="text">author</mods:roleTerm>
+								</mods:role>
+								<mods:namePart><xsl:value-of select="text()" /></mods:namePart>
+							</mods:name>
+							</xsl:for-each>
 							<xsl:for-each select="doc:metadata/doc:element[@name='dc']/doc:element[@name='contributor']/doc:element">
 								<xsl:for-each select="doc:element/doc:field[@name='value']">
 								<mods:name>
