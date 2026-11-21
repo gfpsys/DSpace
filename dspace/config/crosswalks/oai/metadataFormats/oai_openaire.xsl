@@ -96,8 +96,8 @@
                 </dc:coverage>
             </xsl:for-each>
             <!-- datacite:size -->
-            <xsl:apply-templates
-                select="doc:metadata/doc:element[@name='bundles']/doc:element[@name='bundle']" mode="datacite"/>
+            <!-- páginas (dc.description.pages) y tamaño de los archivos del bundle ORIGINAL -->
+            <xsl:call-template name="sizes"/>
             <!-- oaire:version -->
             <!-- dc.type.publicationversion a COAR Version Types -->
             <xsl:apply-templates
@@ -1022,12 +1022,29 @@
 
     <!-- datacite:sizes -->
     <!-- https://openaire-guidelines-for-literature-repository-managers.readthedocs.io/en/4.0.1/field_size.html -->
-    <xsl:template match="doc:element[@name='bundles']/doc:element[@name='bundle']" mode="datacite">
-        <xsl:if test="doc:field[@name='name' and text()='ORIGINAL']">
+    <!-- Un solo datacite:sizes con la extensión (dc.description.pages: "245" sale como "245 pages";
+         si ya trae texto, p. ej. "245 p.", se exporta tal cual) y el tamaño de cada archivo del bundle ORIGINAL.
+         No se genera si el ítem no tiene páginas ni archivos. -->
+    <xsl:template name="sizes">
+        <xsl:variable name="pages"
+            select="doc:metadata/doc:element[@name='dc']/doc:element[@name='description']/doc:element[@name='pages']/doc:element/doc:field[@name='value'][normalize-space(.) != '']"/>
+        <xsl:variable name="bitstreams"
+            select="doc:metadata/doc:element[@name='bundles']/doc:element[@name='bundle'][doc:field[@name='name']='ORIGINAL']/doc:element[@name='bitstreams']/doc:element[@name='bitstream']"/>
+        <xsl:if test="$pages or $bitstreams">
             <datacite:sizes>
-                <xsl:for-each select="doc:element[@name='bitstreams']/doc:element[@name='bitstream']">
-                    <xsl:apply-templates select="." mode="datacite"/>
+                <xsl:for-each select="$pages">
+                    <datacite:size>
+                        <xsl:choose>
+                            <xsl:when test="translate(normalize-space(.), '0123456789', '') = ''">
+                                <xsl:value-of select="concat(normalize-space(.), ' pages')"/>
+                            </xsl:when>
+                            <xsl:otherwise>
+                                <xsl:value-of select="normalize-space(.)"/>
+                            </xsl:otherwise>
+                        </xsl:choose>
+                    </datacite:size>
                 </xsl:for-each>
+                <xsl:apply-templates select="$bitstreams" mode="datacite"/>
             </datacite:sizes>
         </xsl:if>
     </xsl:template>
@@ -2089,6 +2106,32 @@
             </xsl:when>
             <xsl:when test="$lc_value = 'italiano' or $lc_value = 'italian' or $lc_value = 'it' or $lc_value = 'ita'">
                 <xsl:text>ita</xsl:text>
+            </xsl:when>
+            <!-- Lenguas indígenas de la lista common_iso_languages.
+                 Chinanteco, Mazateco, Totonaco y Mixe no tienen código ISO 639-3 general y no se exportan. -->
+            <xsl:when test="$lc_value = 'mazahua' or $lc_value = 'maz'">
+                <xsl:text>maz</xsl:text>
+            </xsl:when>
+            <xsl:when test="$lc_value = 'otomí' or $lc_value = 'otomi' or $lc_value = 'ots'">
+                <xsl:text>ots</xsl:text>
+            </xsl:when>
+            <xsl:when test="$lc_value = 'náhuatl' or $lc_value = 'nahuatl' or $lc_value = 'nah'">
+                <xsl:text>nah</xsl:text>
+            </xsl:when>
+            <xsl:when test="$lc_value = 'matlatzinca' or $lc_value = 'mat'">
+                <xsl:text>mat</xsl:text>
+            </xsl:when>
+            <xsl:when test="$lc_value = 'tlahuica' or $lc_value = 'ocu'">
+                <xsl:text>ocu</xsl:text>
+            </xsl:when>
+            <xsl:when test="$lc_value = 'maya' or $lc_value = 'yua'">
+                <xsl:text>yua</xsl:text>
+            </xsl:when>
+            <xsl:when test="$lc_value = 'zapoteco' or $lc_value = 'zap'">
+                <xsl:text>zap</xsl:text>
+            </xsl:when>
+            <xsl:when test="$lc_value = 'chocho (chocholteco)' or $lc_value = 'chocho' or $lc_value = 'chocholteco' or $lc_value = 'coz'">
+                <xsl:text>coz</xsl:text>
             </xsl:when>
             <xsl:otherwise/>
         </xsl:choose>

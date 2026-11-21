@@ -86,9 +86,23 @@
 								<xsl:value-of select="doc:field[@name='value']/text()" />
 							</mods:abstract>
 							</xsl:for-each>
+							<!--  dc.language (Español, Inglés...) y dc.language.iso (es, en...) a una etiqueta RFC 3066:
+							     código de dos letras cuando existe (es, en, pt...) y ISO 639-3 para las lenguas indígenas.
+							     Sin repetidos; "Otro" y los idiomas sin código general no se exportan. -->
+							<xsl:variable name="languages">
+								<xsl:for-each select="doc:metadata/doc:element[@name='dc']/doc:element[@name='language']//doc:field[@name='value']">
+									<language xmlns="">
+										<xsl:call-template name="resolveRFC3066Language">
+											<xsl:with-param name="value" select="." />
+										</xsl:call-template>
+									</language>
+								</xsl:for-each>
+							</xsl:variable>
+							<xsl:for-each select="$languages/language[. != '' and not(. = preceding-sibling::language)]">
 							<mods:language>
-								<mods:languageTerm authority="rfc3066"><xsl:value-of select="doc:metadata/doc:element[@name='dc']/doc:element[@name='language']/doc:element/doc:element/doc:field[@name='value']"></xsl:value-of></mods:languageTerm>
+								<mods:languageTerm authority="rfc3066"><xsl:value-of select="." /></mods:languageTerm>
 							</mods:language>
+							</xsl:for-each>
 							<mods:accessCondition type="useAndReproduction"><xsl:value-of select="doc:metadata/doc:element[@name='dc']/doc:element[@name='rights']/doc:element/doc:field[@name='value']"></xsl:value-of></mods:accessCondition>
 							<xsl:for-each select="doc:metadata/doc:element[@name='dc']/doc:element[@name='subject']/doc:element/doc:field[@name='value']">
 							<mods:subject>
@@ -298,5 +312,47 @@
 			</structMap>
 		</mets>
 	</xsl:template>
-	
+
+	<!-- Idioma a etiqueta RFC 3066: dos letras cuando existen, si no el código ISO 639-3 -->
+	<xsl:template name="resolveRFC3066Language">
+		<xsl:param name="value" />
+		<xsl:variable name="code">
+			<xsl:call-template name="resolveLanguageCode">
+				<xsl:with-param name="value" select="$value" />
+			</xsl:call-template>
+		</xsl:variable>
+		<xsl:choose>
+			<xsl:when test="$code = 'spa'">es</xsl:when>
+			<xsl:when test="$code = 'eng'">en</xsl:when>
+			<xsl:when test="$code = 'por'">pt</xsl:when>
+			<xsl:when test="$code = 'fra'">fr</xsl:when>
+			<xsl:when test="$code = 'deu'">de</xsl:when>
+			<xsl:when test="$code = 'ita'">it</xsl:when>
+			<xsl:otherwise><xsl:value-of select="$code" /></xsl:otherwise>
+		</xsl:choose>
+	</xsl:template>
+
+	<!-- Idioma (lista common_iso_languages o código ISO 639-1/639-3) a ISO 639-3.
+	     Devuelve vacío para "Otro" y para Chinanteco, Mazateco, Totonaco y Mixe (sin código general). -->
+	<xsl:template name="resolveLanguageCode">
+		<xsl:param name="value" />
+		<xsl:variable name="lc_value" select="translate(normalize-space($value), 'ABCDEFGHIJKLMNOPQRSTUVWXYZÁÉÍÓÚÑ', 'abcdefghijklmnopqrstuvwxyzáéíóúñ')" />
+		<xsl:choose>
+			<xsl:when test="contains('|español|espanol|spanish|es|es_mx|es_es|spa|', concat('|', $lc_value, '|'))">spa</xsl:when>
+			<xsl:when test="contains('|inglés|ingles|english|en|en_us|eng|', concat('|', $lc_value, '|'))">eng</xsl:when>
+			<xsl:when test="contains('|portugués|portugues|português|portuguese|pt|pt_br|por|', concat('|', $lc_value, '|'))">por</xsl:when>
+			<xsl:when test="contains('|francés|frances|français|french|fr|fra|', concat('|', $lc_value, '|'))">fra</xsl:when>
+			<xsl:when test="contains('|alemán|aleman|german|de|deu|', concat('|', $lc_value, '|'))">deu</xsl:when>
+			<xsl:when test="contains('|italiano|italian|it|ita|', concat('|', $lc_value, '|'))">ita</xsl:when>
+			<xsl:when test="contains('|mazahua|maz|', concat('|', $lc_value, '|'))">maz</xsl:when>
+			<xsl:when test="contains('|otomí|otomi|ots|', concat('|', $lc_value, '|'))">ots</xsl:when>
+			<xsl:when test="contains('|náhuatl|nahuatl|nah|', concat('|', $lc_value, '|'))">nah</xsl:when>
+			<xsl:when test="contains('|matlatzinca|mat|', concat('|', $lc_value, '|'))">mat</xsl:when>
+			<xsl:when test="contains('|tlahuica|ocu|', concat('|', $lc_value, '|'))">ocu</xsl:when>
+			<xsl:when test="contains('|maya|yua|', concat('|', $lc_value, '|'))">yua</xsl:when>
+			<xsl:when test="contains('|zapoteco|zap|', concat('|', $lc_value, '|'))">zap</xsl:when>
+			<xsl:when test="contains('|chocho (chocholteco)|chocho|chocholteco|coz|', concat('|', $lc_value, '|'))">coz</xsl:when>
+		</xsl:choose>
+	</xsl:template>
+
 </xsl:stylesheet>

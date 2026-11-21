@@ -54,7 +54,8 @@
 				<dc:description><xsl:value-of select="." /></dc:description>
 			</xsl:for-each>
 			<!-- dc.description.* (not provenance)-->
-			<xsl:for-each select="doc:metadata/doc:element[@name='dc']/doc:element[@name='description']/doc:element[@name!='provenance']/doc:element/doc:field[@name='value']">
+			<!--  dc.description.pages no se exporta: Dublin Core simple / OpenAIRE 3 no tienen campo para la extensión -->
+			<xsl:for-each select="doc:metadata/doc:element[@name='dc']/doc:element[@name='description']/doc:element[@name!='provenance' and @name!='pages']/doc:element/doc:field[@name='value']">
 				<dc:description><xsl:value-of select="." /></dc:description>
 			</xsl:for-each>
 			<!--  dc.abstract (campo heredado de importaciones) -->
@@ -141,6 +142,10 @@
 			<xsl:for-each select="doc:metadata/doc:element[@name='dc']/doc:element[@name='source']/doc:element[@name='issn']/doc:element/doc:field[@name='value']">
 				<dc:relation><xsl:value-of select="concat('info:eu-repo/semantics/altIdentifier/issn/', normalize-space(.))" /></dc:relation>
 			</xsl:for-each>
+			<!--  ISBN del libro; también se conserva en dc:identifier -->
+			<xsl:for-each select="doc:metadata/doc:element[@name='dc']/doc:element[@name='identifier']/doc:element[@name='isbn']/doc:element/doc:field[@name='value']">
+				<dc:relation><xsl:value-of select="concat('info:eu-repo/semantics/altIdentifier/isbn/', normalize-space(.))" /></dc:relation>
+			</xsl:for-each>
 			<!-- dc.rights -->
 			<!-- dc.rights.* -->
 			<!--  una sola condición de acceso DRIVER (info:eu-repo/semantics/openAccess...), tomada de
@@ -174,14 +179,30 @@
 			<xsl:for-each select="doc:metadata/doc:element[@name='dc']/doc:element[@name='coverage']/doc:element/doc:element/doc:field[@name='value']">
 				<dc:coverage><xsl:value-of select="." /></dc:coverage>
 			</xsl:for-each>
+			<!-- dc.audience -->
+			<!--  público destinatario (lista openaire_audience) al vocabulario de OpenAIRE en inglés, sin repetidos
+			     https://guidelines.openaire.eu/en/latest/literature/field_audience.html -->
+			<xsl:variable name="audiences">
+				<xsl:for-each select="doc:metadata/doc:element[@name='dc']/doc:element[@name='audience']/doc:element/doc:field[@name='value']">
+					<audience>
+						<xsl:call-template name="resolveAudience">
+							<xsl:with-param name="field" select="." />
+						</xsl:call-template>
+					</audience>
+				</xsl:for-each>
+			</xsl:variable>
+			<xsl:for-each select="$audiences/audience[. != '' and not(. = preceding-sibling::audience)]">
+				<dc:audience><xsl:value-of select="." /></dc:audience>
+			</xsl:for-each>
 			<!-- dc.publisher -->
 			<xsl:for-each select="doc:metadata/doc:element[@name='dc']/doc:element[@name='publisher']/doc:element/doc:field[@name='value']">
 				<dc:publisher><xsl:value-of select="." /></dc:publisher>
 			</xsl:for-each>
 			<!-- dc.publisher.* -->
-			<!--  p. ej. dc.publisher.degree; no se repite si es igual a dc.publisher -->
+			<!--  solo dc.publisher.degree (institución que otorga el grado); no se repite si es igual a dc.publisher.
+			     dc.publisher.location (lugar de publicación) no es una editorial y no se exporta. -->
 			<xsl:variable name="publishers" select="doc:metadata/doc:element[@name='dc']/doc:element[@name='publisher']/doc:element/doc:field[@name='value']" />
-			<xsl:for-each select="doc:metadata/doc:element[@name='dc']/doc:element[@name='publisher']/doc:element/doc:element/doc:field[@name='value']">
+			<xsl:for-each select="doc:metadata/doc:element[@name='dc']/doc:element[@name='publisher']/doc:element[@name='degree']/doc:element/doc:field[@name='value']">
 				<xsl:if test="not($publishers[. = current()])">
 					<dc:publisher><xsl:value-of select="." /></dc:publisher>
 				</xsl:if>
@@ -372,9 +393,46 @@
 			<xsl:when test="contains('|francés|frances|français|french|fr|fra|', concat('|', $lc_value, '|'))">fra</xsl:when>
 			<xsl:when test="contains('|alemán|aleman|german|de|deu|', concat('|', $lc_value, '|'))">deu</xsl:when>
 			<xsl:when test="contains('|italiano|italian|it|ita|', concat('|', $lc_value, '|'))">ita</xsl:when>
+			<!-- Lenguas indígenas de la lista common_iso_languages.
+			     Chinanteco, Mazateco, Totonaco y Mixe no tienen código ISO 639-3 general y no se exportan. -->
+			<xsl:when test="contains('|mazahua|maz|', concat('|', $lc_value, '|'))">maz</xsl:when>
+			<xsl:when test="contains('|otomí|otomi|ots|', concat('|', $lc_value, '|'))">ots</xsl:when>
+			<xsl:when test="contains('|náhuatl|nahuatl|nah|', concat('|', $lc_value, '|'))">nah</xsl:when>
+			<xsl:when test="contains('|matlatzinca|mat|', concat('|', $lc_value, '|'))">mat</xsl:when>
+			<xsl:when test="contains('|tlahuica|ocu|', concat('|', $lc_value, '|'))">ocu</xsl:when>
+			<xsl:when test="contains('|maya|yua|', concat('|', $lc_value, '|'))">yua</xsl:when>
+			<xsl:when test="contains('|zapoteco|zap|', concat('|', $lc_value, '|'))">zap</xsl:when>
+			<xsl:when test="contains('|chocho (chocholteco)|chocho|chocholteco|coz|', concat('|', $lc_value, '|'))">coz</xsl:when>
 			<xsl:when test="string-length($lc_value) = 3 and translate($lc_value, 'abcdefghijklmnopqrstuvwxyz', '') = ''">
 				<xsl:value-of select="$lc_value" />
 			</xsl:when>
+		</xsl:choose>
+	</xsl:template>
+
+	<!-- Público destinatario (lista openaire_audience) al vocabulario de OpenAIRE (en inglés).
+	     Devuelve vacío si no se reconoce. -->
+	<xsl:template name="resolveAudience">
+		<xsl:param name="field" />
+		<xsl:variable name="lc_value">
+			<xsl:call-template name="lowercase">
+				<xsl:with-param name="value" select="normalize-space($field)" />
+			</xsl:call-template>
+		</xsl:variable>
+		<xsl:choose>
+			<xsl:when test="$lc_value = 'administradores'">Administrators</xsl:when>
+			<xsl:when test="$lc_value = 'beneficiarios y solicitantes de fondos federales'">Federal Funds Recipients and Applicants</xsl:when>
+			<xsl:when test="$lc_value = 'bibliotecarios'">Librarians</xsl:when>
+			<xsl:when test="$lc_value = 'consejeros'">Counsellors</xsl:when>
+			<xsl:when test="$lc_value = 'docentes'">Teachers</xsl:when>
+			<xsl:when test="$lc_value = 'grupos comunitarios'">Community Groups</xsl:when>
+			<xsl:when test="$lc_value = 'estudiantes'">Students</xsl:when>
+			<xsl:when test="$lc_value = 'investigadores'">Researchers</xsl:when>
+			<xsl:when test="$lc_value = 'medios de comunicación' or $lc_value = 'medios de comunicacion'">News Media</xsl:when>
+			<xsl:when test="$lc_value = 'padres y familias'">Parents and Families</xsl:when>
+			<xsl:when test="$lc_value = 'personal de apoyo escolar'">School Support Staff</xsl:when>
+			<xsl:when test="$lc_value = 'proveedores de ayuda financiera para estudiantes'">Student Financial Aid Providers</xsl:when>
+			<xsl:when test="$lc_value = 'responsables de políticas' or $lc_value = 'responsables de politicas'">Policymakers</xsl:when>
+			<xsl:when test="$lc_value = 'otros' or $lc_value = 'público en general' or $lc_value = 'publico en general'">Other</xsl:when>
 		</xsl:choose>
 	</xsl:template>
 
