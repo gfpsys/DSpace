@@ -15,6 +15,11 @@
 				<!-- CM advisor y reviewer -->
 				<entry key="isAdvisorOfPublication" value-ref="isAdvisorOfPublicationMap"/>
                 <entry key="isReviewerOfPublication" value-ref="isReviewerOfPublicationMap"/>
+                <!-- CM colaboradores de libros -->
+                <entry key="isIllustratorOfPublication" value-ref="isIllustratorOfPublicationMap"/>
+                <entry key="isEditorOfPublication" value-ref="isEditorOfPublicationMap"/>
+                <entry key="isCoordinatorOfPublication" value-ref="isCoordinatorOfPublicationMap"/>
+                <entry key="isOtherContributorOfPublication" value-ref="isOtherContributorOfPublicationMap"/>
                 <entry key="isOrgUnitOfPublication" value-ref="isOrgUnitOfPublicationMap"/>
                 <entry key="isPersonOfProject" value-ref="isPersonOfProjectMap"/>
                 <entry key="isOrgUnitOfProject" value-ref="isOrgUnitOfProjectMap"/>
@@ -100,6 +105,35 @@
         <entry key="dc.contributor.reviewer" value-ref="publicationReviewer_name"/>
     </util:map>
     <bean class="org.dspace.content.virtual.Concatenate" id="publicationReviewer_name">
+        <property name="fields">
+            <util:list>
+                <value>person.familyName</value>
+                <value>person.givenName</value>
+            </util:list>
+        </property>
+        <property name="separator">
+            <value>, </value>
+        </property>
+        <property name="useForPlace" value="true"/>
+        <property name="populateWithNameVariant" value="true"/>
+    </bean>
+
+    <!-- CM: colaboradores de libros -> "Apellido(s), Nombre(s)" -->
+    <util:map id="isIllustratorOfPublicationMap">
+        <entry key="dc.contributor.illustrator" value-ref="publicationContributorPerson_name"/>
+    </util:map>
+    <util:map id="isEditorOfPublicationMap">
+        <entry key="dc.contributor.editor" value-ref="publicationContributorPerson_name"/>
+    </util:map>
+    <util:map id="isCoordinatorOfPublicationMap">
+        <entry key="dc.contributor.coordinator" value-ref="publicationContributorPerson_name"/>
+    </util:map>
+    <util:map id="isOtherContributorOfPublicationMap">
+        <entry key="dc.contributor.other" value-ref="publicationContributorPerson_name"/>
+    </util:map>
+
+    <!-- Bean compartido: convierte la Persona relacionada en "Apellido(s), Nombre(s)" -->
+    <bean class="org.dspace.content.virtual.Concatenate" id="publicationContributorPerson_name">
         <property name="fields">
             <util:list>
                 <value>person.familyName</value>

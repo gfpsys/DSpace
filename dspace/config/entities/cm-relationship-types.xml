@@ -31,4 +31,64 @@
         </rightCardinality>
         <copyToLeft>true</copyToLeft>
     </type>
+
+    <!-- Ilustrador(a): Publication -> Person -->
+    <type>
+        <leftType>Publication</leftType>
+        <rightType>Person</rightType>
+        <leftwardType>isIllustratorOfPublication</leftwardType>
+        <rightwardType>isPublicationOfIllustrator</rightwardType>
+        <leftCardinality>
+            <min>0</min>
+        </leftCardinality>
+        <rightCardinality>
+            <min>0</min>
+        </rightCardinality>
+        <copyToLeft>true</copyToLeft>
+    </type>
+
+    <!-- Editor(a): Publication -> Person -->
+    <type>
+        <leftType>Publication</leftType>
+        <rightType>Person</rightType>
+        <leftwardType>isEditorOfPublication</leftwardType>
+        <rightwardType>isPublicationOfEditor</rightwardType>
+        <leftCardinality>
+            <min>0</min>
+        </leftCardinality>
+        <rightCardinality>
+            <min>0</min>
+        </rightCardinality>
+        <copyToLeft>true</copyToLeft>
+    </type>
+
+    <!-- Coordinador(a): Publication -> Person -->
+    <type>
+        <leftType>Publication</leftType>
+        <rightType>Person</rightType>
+        <leftwardType>isCoordinatorOfPublication</leftwardType>
+        <rightwardType>isPublicationOfCoordinator</rightwardType>
+        <leftCardinality>
+            <min>0</min>
+        </leftCardinality>
+        <rightCardinality>
+            <min>0</min>
+        </rightCardinality>
+        <copyToLeft>true</copyToLeft>
+    </type>
+
+    <!-- Otro colaborador: Publication -> Person -->
+    <type>
+        <leftType>Publication</leftType>
+        <rightType>Person</rightType>
+        <leftwardType>isOtherContributorOfPublication</leftwardType>
+        <rightwardType>isPublicationOfOtherContributor</rightwardType>
+        <leftCardinality>
+            <min>0</min>
+        </leftCardinality>
+        <rightCardinality>
+            <min>0</min>
+        </rightCardinality>
+        <copyToLeft>true</copyToLeft>
+    </type>
 </relationships>
