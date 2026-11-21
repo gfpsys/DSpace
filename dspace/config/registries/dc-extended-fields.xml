@@ -78,6 +78,26 @@
         <scope_note>Institución que otorga el grado académico</scope_note>
     </dc-type>
 
+    <!-- dc: plantilla publicationStep (libros) -->
+    <dc-type>
+        <schema>dc</schema>
+        <element>contributor</element>
+        <qualifier>coordinator</qualifier>
+        <scope_note>Coordinador(a) de la obra.</scope_note>
+    </dc-type>
+    <dc-type>
+        <schema>dc</schema>
+        <element>publisher</element>
+        <qualifier>location</qualifier>
+        <scope_note>Lugar de publicación.</scope_note>
+    </dc-type>
+    <dc-type>
+        <schema>dc</schema>
+        <element>description</element>
+        <qualifier>pages</qualifier>
+        <scope_note>Número de páginas.</scope_note>
+    </dc-type>
+
     <!-- dc: no se usa en ninguna plantilla, pero tiene valores en la base -->
     <dc-type>
         <schema>dc</schema>

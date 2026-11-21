@@ -47,5 +47,10 @@ Educational Programs / Postgraduate Studies</scope_note>
         <qualifier>promotion</qualifier>
         <scope_note>Periodo de promoción académica</scope_note>
     </dc-type>
+    <dc-type>
+        <schema>cm</schema>
+        <element>library</element>
+        <scope_note>Biblioteca</scope_note>
+    </dc-type>
 
 </dspace-dc-types>

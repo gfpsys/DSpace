@@ -66,4 +66,100 @@
         <scope_note>Revisor(a) o lector(a) de tesis.</scope_note>
     </dc-type>
 
+    <!-- Ilustrador -->
+    <dc-type>
+        <schema>relation</schema>
+        <element>isIllustratorOfPublication</element>
+        <scope_note>Uso interno de DSpace. No editar.</scope_note>
+    </dc-type>
+    <dc-type>
+        <schema>relation</schema>
+        <element>isIllustratorOfPublication</element>
+        <qualifier>latestForDiscovery</qualifier>
+        <scope_note>Uso interno de DSpace. No editar.</scope_note>
+    </dc-type>
+    <dc-type>
+        <schema>relation</schema>
+        <element>isPublicationOfIllustrator</element>
+        <scope_note>Uso interno de DSpace. No editar.</scope_note>
+    </dc-type>
+    <dc-type>
+        <schema>relation</schema>
+        <element>isPublicationOfIllustrator</element>
+        <qualifier>latestForDiscovery</qualifier>
+        <scope_note>Uso interno de DSpace. No editar.</scope_note>
+    </dc-type>
+
+    <!-- Editor -->
+    <dc-type>
+        <schema>relation</schema>
+        <element>isEditorOfPublication</element>
+        <scope_note>Uso interno de DSpace. No editar.</scope_note>
+    </dc-type>
+    <dc-type>
+        <schema>relation</schema>
+        <element>isEditorOfPublication</element>
+        <qualifier>latestForDiscovery</qualifier>
+        <scope_note>Uso interno de DSpace. No editar.</scope_note>
+    </dc-type>
+    <dc-type>
+        <schema>relation</schema>
+        <element>isPublicationOfEditor</element>
+        <scope_note>Uso interno de DSpace. No editar.</scope_note>
+    </dc-type>
+    <dc-type>
+        <schema>relation</schema>
+        <element>isPublicationOfEditor</element>
+        <qualifier>latestForDiscovery</qualifier>
+        <scope_note>Uso interno de DSpace. No editar.</scope_note>
+    </dc-type>
+
+    <!-- Coordinador -->
+    <dc-type>
+        <schema>relation</schema>
+        <element>isCoordinatorOfPublication</element>
+        <scope_note>Uso interno de DSpace. No editar.</scope_note>
+    </dc-type>
+    <dc-type>
+        <schema>relation</schema>
+        <element>isCoordinatorOfPublication</element>
+        <qualifier>latestForDiscovery</qualifier>
+        <scope_note>Uso interno de DSpace. No editar.</scope_note>
+    </dc-type>
+    <dc-type>
+        <schema>relation</schema>
+        <element>isPublicationOfCoordinator</element>
+        <scope_note>Uso interno de DSpace. No editar.</scope_note>
+    </dc-type>
+    <dc-type>
+        <schema>relation</schema>
+        <element>isPublicationOfCoordinator</element>
+        <qualifier>latestForDiscovery</qualifier>
+        <scope_note>Uso interno de DSpace. No editar.</scope_note>
+    </dc-type>
+
+    <!-- Otro colaborador -->
+    <dc-type>
+        <schema>relation</schema>
+        <element>isOtherContributorOfPublication</element>
+        <scope_note>Uso interno de DSpace. No editar.</scope_note>
+    </dc-type>
+    <dc-type>
+        <schema>relation</schema>
+        <element>isOtherContributorOfPublication</element>
+        <qualifier>latestForDiscovery</qualifier>
+        <scope_note>Uso interno de DSpace. No editar.</scope_note>
+    </dc-type>
+    <dc-type>
+        <schema>relation</schema>
+        <element>isPublicationOfOtherContributor</element>
+        <scope_note>Uso interno de DSpace. No editar.</scope_note>
+    </dc-type>
+    <dc-type>
+        <schema>relation</schema>
+        <element>isPublicationOfOtherContributor</element>
+        <qualifier>latestForDiscovery</qualifier>
+        <scope_note>Uso interno de DSpace. No editar.</scope_note>
+    </dc-type>
+
 </dspace-dc-types>
