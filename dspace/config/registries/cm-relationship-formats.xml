@@ -162,4 +162,124 @@
         <scope_note>Uso interno de DSpace. No editar.</scope_note>
     </dc-type>
 
+    <!-- Conductor(a) -->
+    <dc-type>
+        <schema>relation</schema>
+        <element>isHostOfPublication</element>
+        <scope_note>Uso interno de DSpace. No editar.</scope_note>
+    </dc-type>
+    <dc-type>
+        <schema>relation</schema>
+        <element>isHostOfPublication</element>
+        <qualifier>latestForDiscovery</qualifier>
+        <scope_note>Uso interno de DSpace. No editar.</scope_note>
+    </dc-type>
+    <dc-type>
+        <schema>relation</schema>
+        <element>isPublicationOfHost</element>
+        <scope_note>Uso interno de DSpace. No editar.</scope_note>
+    </dc-type>
+    <dc-type>
+        <schema>relation</schema>
+        <element>isPublicationOfHost</element>
+        <qualifier>latestForDiscovery</qualifier>
+        <scope_note>Uso interno de DSpace. No editar.</scope_note>
+    </dc-type>
+
+    <!-- Productor(a) -->
+    <dc-type>
+        <schema>relation</schema>
+        <element>isProducerOfPublication</element>
+        <scope_note>Uso interno de DSpace. No editar.</scope_note>
+    </dc-type>
+    <dc-type>
+        <schema>relation</schema>
+        <element>isProducerOfPublication</element>
+        <qualifier>latestForDiscovery</qualifier>
+        <scope_note>Uso interno de DSpace. No editar.</scope_note>
+    </dc-type>
+    <dc-type>
+        <schema>relation</schema>
+        <element>isPublicationOfProducer</element>
+        <scope_note>Uso interno de DSpace. No editar.</scope_note>
+    </dc-type>
+    <dc-type>
+        <schema>relation</schema>
+        <element>isPublicationOfProducer</element>
+        <qualifier>latestForDiscovery</qualifier>
+        <scope_note>Uso interno de DSpace. No editar.</scope_note>
+    </dc-type>
+
+    <!-- Realizador(a) -->
+    <dc-type>
+        <schema>relation</schema>
+        <element>isDirectorOfPublication</element>
+        <scope_note>Uso interno de DSpace. No editar.</scope_note>
+    </dc-type>
+    <dc-type>
+        <schema>relation</schema>
+        <element>isDirectorOfPublication</element>
+        <qualifier>latestForDiscovery</qualifier>
+        <scope_note>Uso interno de DSpace. No editar.</scope_note>
+    </dc-type>
+    <dc-type>
+        <schema>relation</schema>
+        <element>isPublicationOfDirector</element>
+        <scope_note>Uso interno de DSpace. No editar.</scope_note>
+    </dc-type>
+    <dc-type>
+        <schema>relation</schema>
+        <element>isPublicationOfDirector</element>
+        <qualifier>latestForDiscovery</qualifier>
+        <scope_note>Uso interno de DSpace. No editar.</scope_note>
+    </dc-type>
+
+    <!-- Invitado(a) -->
+    <dc-type>
+        <schema>relation</schema>
+        <element>isGuestOfPublication</element>
+        <scope_note>Uso interno de DSpace. No editar.</scope_note>
+    </dc-type>
+    <dc-type>
+        <schema>relation</schema>
+        <element>isGuestOfPublication</element>
+        <qualifier>latestForDiscovery</qualifier>
+        <scope_note>Uso interno de DSpace. No editar.</scope_note>
+    </dc-type>
+    <dc-type>
+        <schema>relation</schema>
+        <element>isPublicationOfGuest</element>
+        <scope_note>Uso interno de DSpace. No editar.</scope_note>
+    </dc-type>
+    <dc-type>
+        <schema>relation</schema>
+        <element>isPublicationOfGuest</element>
+        <qualifier>latestForDiscovery</qualifier>
+        <scope_note>Uso interno de DSpace. No editar.</scope_note>
+    </dc-type>
+
+    <!-- Entrevistado(a) -->
+    <dc-type>
+        <schema>relation</schema>
+        <element>isIntervieweeOfPublication</element>
+        <scope_note>Uso interno de DSpace. No editar.</scope_note>
+    </dc-type>
+    <dc-type>
+        <schema>relation</schema>
+        <element>isIntervieweeOfPublication</element>
+        <qualifier>latestForDiscovery</qualifier>
+        <scope_note>Uso interno de DSpace. No editar.</scope_note>
+    </dc-type>
+    <dc-type>
+        <schema>relation</schema>
+        <element>isPublicationOfInterviewee</element>
+        <scope_note>Uso interno de DSpace. No editar.</scope_note>
+    </dc-type>
+    <dc-type>
+        <schema>relation</schema>
+        <element>isPublicationOfInterviewee</element>
+        <qualifier>latestForDiscovery</qualifier>
+        <scope_note>Uso interno de DSpace. No editar.</scope_note>
+    </dc-type>
+
 </dspace-dc-types>

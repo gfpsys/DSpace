@@ -1023,14 +1023,17 @@
     <!-- datacite:sizes -->
     <!-- https://openaire-guidelines-for-literature-repository-managers.readthedocs.io/en/4.0.1/field_size.html -->
     <!-- Un solo datacite:sizes con la extensión (dc.description.pages: "245" sale como "245 pages";
-         si ya trae texto, p. ej. "245 p.", se exporta tal cual) y el tamaño de cada archivo del bundle ORIGINAL.
-         No se genera si el ítem no tiene páginas ni archivos. -->
+         si ya trae texto, p. ej. "245 p.", se exporta tal cual), la duración de audio y video
+         (dc.format.extent, tal como se catalogó, p. ej. "00:08:11") y el tamaño de cada archivo del bundle ORIGINAL.
+         No se genera si el ítem no tiene páginas, duración ni archivos. -->
     <xsl:template name="sizes">
         <xsl:variable name="pages"
             select="doc:metadata/doc:element[@name='dc']/doc:element[@name='description']/doc:element[@name='pages']/doc:element/doc:field[@name='value'][normalize-space(.) != '']"/>
+        <xsl:variable name="extents"
+            select="doc:metadata/doc:element[@name='dc']/doc:element[@name='format']/doc:element[@name='extent']/doc:element/doc:field[@name='value'][normalize-space(.) != '']"/>
         <xsl:variable name="bitstreams"
             select="doc:metadata/doc:element[@name='bundles']/doc:element[@name='bundle'][doc:field[@name='name']='ORIGINAL']/doc:element[@name='bitstreams']/doc:element[@name='bitstream']"/>
-        <xsl:if test="$pages or $bitstreams">
+        <xsl:if test="$pages or $extents or $bitstreams">
             <datacite:sizes>
                 <xsl:for-each select="$pages">
                     <datacite:size>
@@ -1042,6 +1045,11 @@
                                 <xsl:value-of select="normalize-space(.)"/>
                             </xsl:otherwise>
                         </xsl:choose>
+                    </datacite:size>
+                </xsl:for-each>
+                <xsl:for-each select="$extents">
+                    <datacite:size>
+                        <xsl:value-of select="normalize-space(.)"/>
                     </datacite:size>
                 </xsl:for-each>
                 <xsl:apply-templates select="$bitstreams" mode="datacite"/>
@@ -1316,6 +1324,12 @@
             <xsl:when test="$lc_contributor_type = 'editor'">
                 <xsl:text>Editor</xsl:text>
             </xsl:when>
+            <!-- dc.contributor.producer (audio y video) -->
+            <xsl:when test="$lc_contributor_type = 'producer'">
+                <xsl:text>Producer</xsl:text>
+            </xsl:when>
+            <!-- coordinator, illustrator, reviewer, other, host, director, guest, interviewee:
+                 sin tipo equivalente en DataCite -->
             <xsl:otherwise>
                 <xsl:text>Other</xsl:text>
             </xsl:otherwise>
@@ -2067,7 +2081,8 @@
             <xsl:when test="$lc_value = 'vídeo' or $lc_value = 'video'">
                 <xsl:text>video</xsl:text>
             </xsl:when>
-            <xsl:when test="$lc_value = 'otro'">
+            <!-- Objeto 3D: no tiene término COAR propio, se expone como "other" -->
+            <xsl:when test="$lc_value = 'otro' or $lc_value = 'objeto 3d'">
                 <xsl:text>other</xsl:text>
             </xsl:when>
             <xsl:otherwise>
