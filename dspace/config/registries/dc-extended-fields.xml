@@ -98,6 +98,62 @@
         <scope_note>Número de páginas.</scope_note>
     </dc-type>
 
+    <!-- dc: plantilla publicationStep (audio y video) -->
+    <dc-type>
+        <schema>dc</schema>
+        <element>source</element>
+        <qualifier>series</qualifier>
+        <scope_note>Serie o programa.</scope_note>
+    </dc-type>
+    <dc-type>
+        <schema>dc</schema>
+        <element>source</element>
+        <qualifier>season</qualifier>
+        <scope_note>Temporada.</scope_note>
+    </dc-type>
+    <dc-type>
+        <schema>dc</schema>
+        <element>source</element>
+        <qualifier>episode</qualifier>
+        <scope_note>Episodio.</scope_note>
+    </dc-type>
+    <dc-type>
+        <schema>dc</schema>
+        <element>relation</element>
+        <qualifier>link</qualifier>
+        <scope_note>Liga de acceso / URL externa del recurso (p. ej. YouTube).</scope_note>
+    </dc-type>
+    <dc-type>
+        <schema>dc</schema>
+        <element>contributor</element>
+        <qualifier>host</qualifier>
+        <scope_note>Conductor(a).</scope_note>
+    </dc-type>
+    <dc-type>
+        <schema>dc</schema>
+        <element>contributor</element>
+        <qualifier>producer</qualifier>
+        <scope_note>Productor(a).</scope_note>
+    </dc-type>
+    <dc-type>
+        <schema>dc</schema>
+        <element>contributor</element>
+        <qualifier>director</qualifier>
+        <scope_note>Realizador(a).</scope_note>
+    </dc-type>
+    <dc-type>
+        <schema>dc</schema>
+        <element>contributor</element>
+        <qualifier>guest</qualifier>
+        <scope_note>Invitado(a).</scope_note>
+    </dc-type>
+    <dc-type>
+        <schema>dc</schema>
+        <element>contributor</element>
+        <qualifier>interviewee</qualifier>
+        <scope_note>Entrevistado(a).</scope_note>
+    </dc-type>
+
     <!-- dc: no se usa en ninguna plantilla, pero tiene valores en la base -->
     <dc-type>
         <schema>dc</schema>

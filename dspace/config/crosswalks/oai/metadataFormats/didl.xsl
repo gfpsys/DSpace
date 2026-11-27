@@ -109,9 +109,16 @@
 							<xsl:for-each select="doc:metadata/doc:element[@name='dc']/doc:element[@name='source']/doc:element/doc:field[@name='value']">
 								<dc:source><xsl:value-of select="." /></dc:source>
 							</xsl:for-each>
-							<xsl:for-each select="doc:metadata/doc:element[@name='dc']/doc:element[@name='source']/doc:element/doc:element/doc:field[@name='value']">
+							<xsl:for-each select="doc:metadata/doc:element[@name='dc']/doc:element[@name='source']/doc:element[not(@name='series' or @name='season' or @name='episode')]/doc:element/doc:field[@name='value']">
 								<dc:source><xsl:value-of select="." /></dc:source>
 							</xsl:for-each>
+							<!--  serie, temporada y episodio (audio y video) se exportan juntos en un solo dc:source -->
+							<xsl:variable name="seriesSource">
+								<xsl:call-template name="seriesSourceText" />
+							</xsl:variable>
+							<xsl:if test="normalize-space($seriesSource) != ''">
+								<dc:source><xsl:value-of select="normalize-space($seriesSource)" /></dc:source>
+							</xsl:if>
 						</oai_dc:dc>
 					</d:Statement>
 				</d:Descriptor>
@@ -136,6 +143,24 @@
 				</xsl:for-each>
 			</d:Item>			
 		</d:DIDL>
+	</xsl:template>
+
+	<!-- Serie / programa, temporada y episodio (audio y video) en un solo texto:
+	     "Intelifilia, temporada 14, episodio 15". Las partes vacías se omiten. -->
+	<xsl:template name="seriesSourceText">
+		<xsl:variable name="source" select="/doc:metadata/doc:element[@name='dc']/doc:element[@name='source']" />
+		<xsl:variable name="series" select="normalize-space($source/doc:element[@name='series']/doc:element/doc:field[@name='value'][1])" />
+		<xsl:variable name="season" select="normalize-space($source/doc:element[@name='season']/doc:element/doc:field[@name='value'][1])" />
+		<xsl:variable name="episode" select="normalize-space($source/doc:element[@name='episode']/doc:element/doc:field[@name='value'][1])" />
+		<xsl:value-of select="$series" />
+		<xsl:if test="$season != ''">
+			<xsl:if test="$series != ''"><xsl:text>, </xsl:text></xsl:if>
+			<xsl:text>temporada </xsl:text><xsl:value-of select="$season" />
+		</xsl:if>
+		<xsl:if test="$episode != ''">
+			<xsl:if test="$series != '' or $season != ''"><xsl:text>, </xsl:text></xsl:if>
+			<xsl:text>episodio </xsl:text><xsl:value-of select="$episode" />
+		</xsl:if>
 	</xsl:template>
 
 	<!-- Idioma (lista common_iso_languages o código ISO 639-1/639-3) a ISO 639-3.

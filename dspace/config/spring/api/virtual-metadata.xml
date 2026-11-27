@@ -20,6 +20,12 @@
                 <entry key="isEditorOfPublication" value-ref="isEditorOfPublicationMap"/>
                 <entry key="isCoordinatorOfPublication" value-ref="isCoordinatorOfPublicationMap"/>
                 <entry key="isOtherContributorOfPublication" value-ref="isOtherContributorOfPublicationMap"/>
+                <!-- CM colaboradores de audio y video -->
+                <entry key="isHostOfPublication" value-ref="isHostOfPublicationMap"/>
+                <entry key="isProducerOfPublication" value-ref="isProducerOfPublicationMap"/>
+                <entry key="isDirectorOfPublication" value-ref="isDirectorOfPublicationMap"/>
+                <entry key="isGuestOfPublication" value-ref="isGuestOfPublicationMap"/>
+                <entry key="isIntervieweeOfPublication" value-ref="isIntervieweeOfPublicationMap"/>
                 <entry key="isOrgUnitOfPublication" value-ref="isOrgUnitOfPublicationMap"/>
                 <entry key="isPersonOfProject" value-ref="isPersonOfProjectMap"/>
                 <entry key="isOrgUnitOfProject" value-ref="isOrgUnitOfProjectMap"/>
@@ -130,6 +136,22 @@
     </util:map>
     <util:map id="isOtherContributorOfPublicationMap">
         <entry key="dc.contributor.other" value-ref="publicationContributorPerson_name"/>
+    </util:map>
+    <!-- CM: colaboradores de audio y video -> "Apellido(s), Nombre(s)" (mismo bean compartido) -->
+    <util:map id="isHostOfPublicationMap">
+        <entry key="dc.contributor.host" value-ref="publicationContributorPerson_name"/>
+    </util:map>
+    <util:map id="isProducerOfPublicationMap">
+        <entry key="dc.contributor.producer" value-ref="publicationContributorPerson_name"/>
+    </util:map>
+    <util:map id="isDirectorOfPublicationMap">
+        <entry key="dc.contributor.director" value-ref="publicationContributorPerson_name"/>
+    </util:map>
+    <util:map id="isGuestOfPublicationMap">
+        <entry key="dc.contributor.guest" value-ref="publicationContributorPerson_name"/>
+    </util:map>
+    <util:map id="isIntervieweeOfPublicationMap">
+        <entry key="dc.contributor.interviewee" value-ref="publicationContributorPerson_name"/>
     </util:map>
 
     <!-- Bean compartido: convierte la Persona relacionada en "Apellido(s), Nombre(s)" -->

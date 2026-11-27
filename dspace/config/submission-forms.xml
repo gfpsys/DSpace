@@ -447,7 +447,7 @@
                     <relationship-type>isEditorOfPublication</relationship-type>
                     <search-configuration>person</search-configuration>
                     <repeatable>true</repeatable>
-                    <label>Editor / editorial</label>
+                    <label>Editor</label>
                     <hint>Ejemplo: Apellido(s), Nombre(s)</hint>
                     <linked-metadata-field>
                         <dc-schema>dc</dc-schema>
@@ -492,16 +492,6 @@
                 </relation-field>
             </row>
 			<row>
-                <field>
-                    <dc-schema>cm</dc-schema>
-                    <dc-element>library</dc-element>
-                    <dc-qualifier></dc-qualifier>
-                    <repeatable>true</repeatable>
-                    <label>Biblioteca</label>
-                    <input-type>onebox</input-type>
-                    <hint></hint>
-                    <required></required>
-                </field>
 				<field>
                     <dc-schema>dc</dc-schema>
                     <dc-element>publisher</dc-element>
@@ -512,6 +502,153 @@
                     <hint>Ejemplo: Zinacantepec, Estado de México, México</hint>
                     <required></required>
                 </field>
+            </row>
+			<row>
+                <field>
+                    <dc-schema>dc</dc-schema>
+                    <dc-element>format</dc-element>
+                    <dc-qualifier>extent</dc-qualifier>
+                    <repeatable>false</repeatable>
+                    <label>Extensión / duración</label>
+                    <input-type>onebox</input-type>
+                    <hint></hint>
+                    <required></required>
+					<type-bind>Audio,Vídeo</type-bind>
+                </field>
+				<field>
+                    <dc-schema>dc</dc-schema>
+                    <dc-element>source</dc-element>
+                    <dc-qualifier>series</dc-qualifier>
+                    <repeatable>false</repeatable>
+                    <label>Serie / Programa</label>
+                    <input-type>onebox</input-type>
+                    <hint></hint>
+                    <required></required>
+					<type-bind>Audio,Vídeo</type-bind>
+                </field>
+            </row>
+			<row>
+                <field>
+                    <dc-schema>dc</dc-schema>
+                    <dc-element>source</dc-element>
+                    <dc-qualifier>season</dc-qualifier>
+                    <repeatable>false</repeatable>
+                    <label>Temporada</label>
+                    <input-type>onebox</input-type>
+                    <hint></hint>
+                    <required></required>
+					<type-bind>Audio,Vídeo</type-bind>
+                </field>
+				<field>
+                    <dc-schema>dc</dc-schema>
+                    <dc-element>source</dc-element>
+                    <dc-qualifier>episode</dc-qualifier>
+                    <repeatable>false</repeatable>
+                    <label>Episodio</label>
+                    <input-type>onebox</input-type>
+                    <hint></hint>
+                    <required></required>
+					<type-bind>Audio,Vídeo</type-bind>
+                </field>
+            </row>
+			<row>
+				<field>
+                    <dc-schema>dc</dc-schema>
+                    <dc-element>relation</dc-element>
+                    <dc-qualifier>link</dc-qualifier>
+                    <repeatable>false</repeatable>
+                    <label>Liga de acceso / URL</label>
+                    <input-type>onebox</input-type>
+                    <hint></hint>
+                    <required></required>
+					<type-bind>Audio,Vídeo</type-bind>
+                </field>
+            </row>
+			<row>
+				<relation-field>
+                    <relationship-type>isHostOfPublication</relationship-type>
+                    <search-configuration>person</search-configuration>
+                    <repeatable>true</repeatable>
+                    <label>Conductor(a)</label>
+                    <hint>Ejemplo: Apellido(s), Nombre(s)</hint>
+                    <linked-metadata-field>
+                        <dc-schema>dc</dc-schema>
+                        <dc-element>contributor</dc-element>
+						<dc-qualifier>host</dc-qualifier>
+                        <input-type>onebox</input-type>
+                    </linked-metadata-field>
+                    <externalsources>orcid</externalsources>
+                    <required></required>
+					<type-bind>Audio,Vídeo</type-bind>
+                </relation-field>
+				<relation-field>
+                    <relationship-type>isProducerOfPublication</relationship-type>
+                    <search-configuration>person</search-configuration>
+                    <repeatable>true</repeatable>
+                    <label>Productor(a)</label>
+                    <hint>Ejemplo: Apellido(s), Nombre(s)</hint>
+                    <linked-metadata-field>
+                        <dc-schema>dc</dc-schema>
+                        <dc-element>contributor</dc-element>
+						<dc-qualifier>producer</dc-qualifier>
+                        <input-type>onebox</input-type>
+                    </linked-metadata-field>
+                    <externalsources>orcid</externalsources>
+                    <required></required>
+					<type-bind>Audio,Vídeo</type-bind>
+                </relation-field>
+            </row>
+			<row>
+				<relation-field>
+                    <relationship-type>isDirectorOfPublication</relationship-type>
+                    <search-configuration>person</search-configuration>
+                    <repeatable>true</repeatable>
+                    <label>Realizador(a)</label>
+                    <hint>Ejemplo: Apellido(s), Nombre(s)</hint>
+                    <linked-metadata-field>
+                        <dc-schema>dc</dc-schema>
+                        <dc-element>contributor</dc-element>
+						<dc-qualifier>director</dc-qualifier>
+                        <input-type>onebox</input-type>
+                    </linked-metadata-field>
+                    <externalsources>orcid</externalsources>
+                    <required></required>
+					<type-bind>Audio,Vídeo</type-bind>
+                </relation-field>
+				<relation-field>
+                    <relationship-type>isGuestOfPublication</relationship-type>
+                    <search-configuration>person</search-configuration>
+                    <repeatable>true</repeatable>
+                    <label>Invitado(a)</label>
+                    <hint>Ejemplo: Apellido(s), Nombre(s)</hint>
+                    <linked-metadata-field>
+                        <dc-schema>dc</dc-schema>
+                        <dc-element>contributor</dc-element>
+						<dc-qualifier>guest</dc-qualifier>
+                        <input-type>onebox</input-type>
+                    </linked-metadata-field>
+                    <externalsources>orcid</externalsources>
+                    <required></required>
+					<type-bind>Audio,Vídeo</type-bind>
+                </relation-field>
+            </row>
+			<row>
+				<relation-field>
+                    <relationship-type>isIntervieweeOfPublication</relationship-type>
+                    <search-configuration>person</search-configuration>
+                    <repeatable>true</repeatable>
+                    <label>Entrevistado(a)</label>
+                    <hint>Ejemplo: Apellido(s), Nombre(s)</hint>
+                    <linked-metadata-field>
+                        <dc-schema>dc</dc-schema>
+                        <dc-element>contributor</dc-element>
+						<dc-qualifier>interviewee</dc-qualifier>
+                        <input-type>onebox</input-type>
+                    </linked-metadata-field>
+                    <externalsources>orcid</externalsources>
+                    <required></required>
+					<type-bind>Audio,Vídeo</type-bind>
+                </relation-field>
             </row>
         </form>
 		<form name="publicationJournalStep">
@@ -698,15 +835,14 @@
             </row>
 			<row>
                 <field>
-                    <dc-schema>dc</dc-schema>
-                    <dc-element>format</dc-element>
-                    <dc-qualifier>extent</dc-qualifier>
-                    <repeatable>false</repeatable>
-                    <label>Extensión / duración</label>
+                    <dc-schema>cm</dc-schema>
+                    <dc-element>library</dc-element>
+                    <dc-qualifier></dc-qualifier>
+                    <repeatable>true</repeatable>
+                    <label>Biblioteca</label>
                     <input-type>onebox</input-type>
                     <hint></hint>
                     <required></required>
-					<type-bind>Audio,Vídeo</type-bind>
                 </field>
             </row>
         </form>
@@ -1860,6 +1996,10 @@
             <pair>
                 <displayed-value>Monografía</displayed-value>
                 <stored-value>Monografía</stored-value>
+            </pair>
+			<pair>
+                <displayed-value>Objeto 3D</displayed-value>
+                <stored-value>Objeto 3D</stored-value>
             </pair>
             <pair>
                 <displayed-value>Ponencia</displayed-value>

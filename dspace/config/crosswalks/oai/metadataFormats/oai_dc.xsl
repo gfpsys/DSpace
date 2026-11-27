@@ -219,9 +219,16 @@
 				<dc:source><xsl:value-of select="normalize-space(.)" /></dc:source>
 			</xsl:for-each>
 			<!-- dc.source.* -->
-			<xsl:for-each select="doc:metadata/doc:element[@name='dc']/doc:element[@name='source']/doc:element[not(@name='issn' or @name='volume' or @name='elocator' or (@name='journal' and $citations))]/doc:element/doc:field[@name='value']">
+			<xsl:for-each select="doc:metadata/doc:element[@name='dc']/doc:element[@name='source']/doc:element[not(@name='issn' or @name='volume' or @name='elocator' or @name='series' or @name='season' or @name='episode' or (@name='journal' and $citations))]/doc:element/doc:field[@name='value']">
 				<dc:source><xsl:value-of select="." /></dc:source>
 			</xsl:for-each>
+			<!--  serie, temporada y episodio (audio y video) se exportan juntos en un solo dc:source -->
+			<xsl:variable name="seriesSource">
+				<xsl:call-template name="seriesSourceText" />
+			</xsl:variable>
+			<xsl:if test="normalize-space($seriesSource) != ''">
+				<dc:source><xsl:value-of select="normalize-space($seriesSource)" /></dc:source>
+			</xsl:if>
 		</oai_dc:dc>
 	</xsl:template>
 
@@ -355,7 +362,9 @@
 			<xsl:when test="$lc_value = 'annotation'">annotation</xsl:when>
 			<xsl:when test="$lc_value = 'patent'">patent</xsl:when>
 			<xsl:when test="contains('|contribution to periodical|contributiontoperiodical|contribution to journal|', concat('|', $lc_value, '|'))">contributionToPeriodical</xsl:when>
-			<!-- Conjunto de datos, Base de datos, Proyecto, Normativa, Imagen, Mapa, Audio, Vídeo, Otro -->
+			<!-- Conjunto de datos, Base de datos, Proyecto, Normativa, Imagen, Mapa, Audio, Vídeo, Objeto 3D, Otro.
+			     Objeto 3D no está en cmDocumentTypeCondition (xoai.xml): no se expone en /driver ni /openaire. -->
+
 			<xsl:otherwise>other</xsl:otherwise>
 		</xsl:choose>
 	</xsl:template>
@@ -407,6 +416,24 @@
 				<xsl:value-of select="$lc_value" />
 			</xsl:when>
 		</xsl:choose>
+	</xsl:template>
+
+	<!-- Serie / programa, temporada y episodio (audio y video) en un solo texto:
+	     "Intelifilia, temporada 14, episodio 15". Las partes vacías se omiten. -->
+	<xsl:template name="seriesSourceText">
+		<xsl:variable name="source" select="/doc:metadata/doc:element[@name='dc']/doc:element[@name='source']" />
+		<xsl:variable name="series" select="normalize-space($source/doc:element[@name='series']/doc:element/doc:field[@name='value'][1])" />
+		<xsl:variable name="season" select="normalize-space($source/doc:element[@name='season']/doc:element/doc:field[@name='value'][1])" />
+		<xsl:variable name="episode" select="normalize-space($source/doc:element[@name='episode']/doc:element/doc:field[@name='value'][1])" />
+		<xsl:value-of select="$series" />
+		<xsl:if test="$season != ''">
+			<xsl:if test="$series != ''"><xsl:text>, </xsl:text></xsl:if>
+			<xsl:text>temporada </xsl:text><xsl:value-of select="$season" />
+		</xsl:if>
+		<xsl:if test="$episode != ''">
+			<xsl:if test="$series != '' or $season != ''"><xsl:text>, </xsl:text></xsl:if>
+			<xsl:text>episodio </xsl:text><xsl:value-of select="$episode" />
+		</xsl:if>
 	</xsl:template>
 
 	<!-- Público destinatario (lista openaire_audience) al vocabulario de OpenAIRE (en inglés).

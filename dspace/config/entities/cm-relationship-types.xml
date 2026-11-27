@@ -91,4 +91,79 @@
         </rightCardinality>
         <copyToLeft>true</copyToLeft>
     </type>
+
+    <!-- Conductor(a): Publication -> Person (audio y video) -->
+    <type>
+        <leftType>Publication</leftType>
+        <rightType>Person</rightType>
+        <leftwardType>isHostOfPublication</leftwardType>
+        <rightwardType>isPublicationOfHost</rightwardType>
+        <leftCardinality>
+            <min>0</min>
+        </leftCardinality>
+        <rightCardinality>
+            <min>0</min>
+        </rightCardinality>
+        <copyToLeft>true</copyToLeft>
+    </type>
+
+    <!-- Productor(a): Publication -> Person (audio y video) -->
+    <type>
+        <leftType>Publication</leftType>
+        <rightType>Person</rightType>
+        <leftwardType>isProducerOfPublication</leftwardType>
+        <rightwardType>isPublicationOfProducer</rightwardType>
+        <leftCardinality>
+            <min>0</min>
+        </leftCardinality>
+        <rightCardinality>
+            <min>0</min>
+        </rightCardinality>
+        <copyToLeft>true</copyToLeft>
+    </type>
+
+    <!-- Realizador(a): Publication -> Person (audio y video) -->
+    <type>
+        <leftType>Publication</leftType>
+        <rightType>Person</rightType>
+        <leftwardType>isDirectorOfPublication</leftwardType>
+        <rightwardType>isPublicationOfDirector</rightwardType>
+        <leftCardinality>
+            <min>0</min>
+        </leftCardinality>
+        <rightCardinality>
+            <min>0</min>
+        </rightCardinality>
+        <copyToLeft>true</copyToLeft>
+    </type>
+
+    <!-- Invitado(a): Publication -> Person (audio y video) -->
+    <type>
+        <leftType>Publication</leftType>
+        <rightType>Person</rightType>
+        <leftwardType>isGuestOfPublication</leftwardType>
+        <rightwardType>isPublicationOfGuest</rightwardType>
+        <leftCardinality>
+            <min>0</min>
+        </leftCardinality>
+        <rightCardinality>
+            <min>0</min>
+        </rightCardinality>
+        <copyToLeft>true</copyToLeft>
+    </type>
+
+    <!-- Entrevistado(a): Publication -> Person (audio y video) -->
+    <type>
+        <leftType>Publication</leftType>
+        <rightType>Person</rightType>
+        <leftwardType>isIntervieweeOfPublication</leftwardType>
+        <rightwardType>isPublicationOfInterviewee</rightwardType>
+        <leftCardinality>
+            <min>0</min>
+        </leftCardinality>
+        <rightCardinality>
+            <min>0</min>
+        </rightCardinality>
+        <copyToLeft>true</copyToLeft>
+    </type>
 </relationships>
